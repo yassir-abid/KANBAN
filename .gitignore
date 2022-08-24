@@ -1,0 +1,37 @@
+# OS X
+**/.DS_Store*
+**/Icon?
+**/._*
+
+# Windows
+**/Thumbs.db
+**/ehthumbs.db
+**/Desktop.ini
+
+# Linux
+**/.directory
+**/*~
+
+# npm
+node_modules
+package-lock.json
+*.gz
+
+#log
+**/*.log
+**/*.log.*
+
+#vscode
+.vs_code/
+
+#config
+.env
+sqitch.conf
+
+#Assets-Uploads
+app/assets/avatar/**
+app/assets/file/**
+app/assets/picture/**
+!app/assets/avatar/.empty
+!app/assets/file/.empty
+!app/assets/picture/.empty 

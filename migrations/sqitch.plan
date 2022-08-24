@@ -1,0 +1,4 @@
+%syntax-version=1.0.0
+%project=kanban
+
+init 2022-08-24T09:05:06Z yassir-abid <abid.yassir@gmail.com> # create tables

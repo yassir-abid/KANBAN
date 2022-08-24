@@ -2,9 +2,7 @@ const debug = require('debug')('test');
 
 require('dotenv').config();
 
-const List = require('./app/models/list');
-const Card = require('./app/models/card');
-const Label = require('./app/models/label');
+const { Card, List, Label } = require('./app/models');
 
 const someTests = async () => {
     try {
@@ -14,6 +12,11 @@ const someTests = async () => {
         debug(cards);
         const labels = await Label.findAll();
         debug(labels);
+        const cardsAndLabels = await Card.findAll({
+            include: ['list', 'labels'],
+        });
+        debug(cardsAndLabels);
+        debug(cardsAndLabels[0].labels);
     } catch (error) {
         debug(error);
     }

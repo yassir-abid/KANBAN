@@ -4,7 +4,7 @@
     "description": "",
     "main": "index.js",
     "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1"
+        "test": "DEBUG=test,-express:*,-nodemon*,-body*,-send* node test.js"
     },
     "repository": {
         "type": "git",
@@ -28,6 +28,9 @@
         "prettier-plugin-sql": "^0.4.1"
     },
     "dependencies": {
+        "debug": "^4.3.4",
+        "dotenv": "^16.0.1",
+        "pg": "^8.8.0",
         "sequelize": "^6.21.4"
     }
 }

@@ -28,6 +28,7 @@ router.get('/labels/:id(\\d+)', controllerHandler(labelController.getOne));
 router.post('/labels', controllerHandler(labelController.create));
 router.patch('/labels/:id(\\d+)', controllerHandler(labelController.update));
 router.delete('/labels/:id(\\d+)', controllerHandler(labelController.delete));
+router.post('/cards/:card_id(\\d+)/labels', controllerHandler(labelController.addLabelToCard));
 
 router.use(() => {
     throw new ApiError('Page not found', { statusCode: 404 });

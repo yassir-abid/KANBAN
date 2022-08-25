@@ -2,7 +2,7 @@ const debug = require('debug')('labelController');
 
 const { ApiError } = require('../helpers/errorHandler');
 
-const { Label } = require('../models');
+const { Label, Card } = require('../models');
 
 const labelController = {
     getAll: async (req, res) => {
@@ -61,6 +61,25 @@ const labelController = {
         }
         await label.destroy();
         return res.json('Label deleted');
+    },
+    addLabelToCard: async (req, res) => {
+        const cardId = req.params.card_id;
+        const labelId = req.body.label_id;
+        const card = await Card.findByPk(cardId, {
+            include: 'labels',
+        });
+        if (!card) {
+            throw new ApiError('Card not found', { statusCode: 404 });
+        }
+        const label = await Label.findByPk(labelId);
+        if (!label) {
+            throw new ApiError('Label not found', { statusCode: 404 });
+        }
+
+        await card.addLabel(label);
+        await card.reload();
+
+        return res.json(card);
     },
 };
 

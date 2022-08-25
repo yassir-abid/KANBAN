@@ -5,14 +5,6 @@ const { ApiError } = require('../helpers/errorHandler');
 const { List } = require('../models');
 
 const listController = {
-    create: async (req, res) => {
-        debug('create');
-        const newList = await List.create({
-            title: req.body.title,
-            position: req.body.position,
-        });
-        return res.json(newList);
-    },
     update: async (req, res) => {
         debug('update');
         const { id } = req.params;

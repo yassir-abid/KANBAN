@@ -5,27 +5,6 @@ const { ApiError } = require('../helpers/errorHandler');
 const { Card, List } = require('../models');
 
 const cardController = {
-    create: async (req, res) => {
-        debug('create');
-        if (!req.body.title) {
-            throw new ApiError('title is required', { statusCode: 400 });
-        }
-        if (!req.body.list_id) {
-            throw new ApiError('list_id is required', { statusCode: 400 });
-        }
-        const list = await List.findByPk(req.body.list_id);
-        if (!list) {
-            throw new ApiError('List not found', { statusCode: 404 });
-        }
-        const newCard = await Card.create({
-            title: req.body.title,
-            color: req.body.color,
-            position: req.body.position,
-            list_id: req.body.list_id,
-        });
-
-        return res.json(newCard);
-    },
     update: async (req, res) => {
         debug('update');
         const { id } = req.params;

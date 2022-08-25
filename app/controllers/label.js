@@ -5,17 +5,6 @@ const { ApiError } = require('../helpers/errorHandler');
 const { Label, Card } = require('../models');
 
 const labelController = {
-    create: async (req, res) => {
-        debug('create');
-        if (!req.body.title) {
-            throw new ApiError('title is required', { statusCode: 400 });
-        }
-        const newLabel = await Label.create({
-            title: req.body.title,
-            color: req.body.color,
-        });
-        return res.json(newLabel);
-    },
     update: async (req, res) => {
         debug('update');
         const { id } = req.params;

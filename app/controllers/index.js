@@ -56,6 +56,30 @@ const mainController = {
 
         return res.json(data);
     },
+    create: async (req, res) => {
+        debug('create');
+        const { entity } = req.params;
+        const Model = mainController.getModel(entity);
+        if (!Model) {
+            throw new ApiError('Entity not found', { statusCode: 404 });
+        }
+        Model.requiredFields.forEach((field) => {
+            if (!req.body[field]) {
+                throw new ApiError(`${field} is required`, { statusCode: 400 });
+            }
+        });
+
+        if (req.body.list_id) {
+            const list = await models.List.findByPk(req.body.list_id);
+            if (!list) {
+                throw new ApiError('List not found', { statusCode: 404 });
+            }
+        }
+
+        const newItem = await Model.create(req.body);
+
+        return res.json(newItem);
+    },
 };
 
 module.exports = {

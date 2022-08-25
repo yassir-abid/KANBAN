@@ -1,12 +1,14 @@
 const express = require('express');
 
+const controllerHandler = require('./helpers/controllerHandler');
 const { errorHandler, ApiError } = require('./helpers/errorHandler');
 
-const mainController = require('./controllers');
+const { listController } = require('./controllers');
 
 const router = express.Router();
 
-router.get('/test', mainController.test);
+/** LIST */
+router.get('/lists', controllerHandler(listController.getAll));
 
 router.use(() => {
     throw new ApiError('Page not found', { statusCode: 404 });

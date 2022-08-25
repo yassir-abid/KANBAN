@@ -1,5 +1,7 @@
 const debug = require('debug')('cardController');
 
+const { ApiError } = require('../helpers/errorHandler');
+
 const { Card } = require('../models');
 
 const cardController = {
@@ -12,6 +14,20 @@ const cardController = {
             ],
         });
         return res.json(cards);
+    },
+    getOne: async (req, res) => {
+        debug('getOne');
+        const { id } = req.params;
+        const card = await Card.findByPk(id, {
+            include: 'labels',
+            order: [
+                ['position', 'ASC'],
+            ],
+        });
+        if (!card) {
+            throw new ApiError('Card not found', { statusCode: 404 });
+        }
+        return res.json(card);
     },
 };
 

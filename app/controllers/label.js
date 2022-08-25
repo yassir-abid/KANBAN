@@ -81,6 +81,26 @@ const labelController = {
 
         return res.json(card);
     },
+    removeLabelFromCard: async (req, res) => {
+        const { card_id: cardId, label_id: labelId } = req.params;
+
+        const card = await Card.findByPk(cardId, {
+            include: 'labels',
+        });
+        if (!card) {
+            throw new ApiError('Card not found', { statusCode: 404 });
+        }
+
+        const label = await Label.findByPk(labelId);
+        if (!label) {
+            throw new ApiError('Label not found', { statusCode: 404 });
+        }
+
+        await card.removeLabel(label);
+        await card.reload();
+
+        return res.json(card);
+    },
 };
 
 module.exports = labelController;

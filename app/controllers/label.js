@@ -5,11 +5,6 @@ const { ApiError } = require('../helpers/errorHandler');
 const { Label, Card } = require('../models');
 
 const labelController = {
-    getAll: async (req, res) => {
-        debug('getAll');
-        const labels = await Label.findAll();
-        return res.json(labels);
-    },
     getOne: async (req, res) => {
         debug('getOne');
         const { id } = req.params;

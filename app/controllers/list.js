@@ -5,11 +5,6 @@ const { ApiError } = require('../helpers/errorHandler');
 const { List } = require('../models');
 
 const listController = {
-    getAll: async (req, res) => {
-        debug('getAll');
-        const lists = await List.findAll();
-        return res.json(lists);
-    },
     getOne: async (req, res) => {
         debug('getOne');
         const { id } = req.params;

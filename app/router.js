@@ -24,6 +24,7 @@ router.get('/lists/:id(\\d+)/cards', controllerHandler(cardController.getCardsIn
 
 /** LABEL */
 router.get('/labels', controllerHandler(labelController.getAll));
+router.get('/labels/:id(\\d+)', controllerHandler(labelController.getOne));
 
 router.use(() => {
     throw new ApiError('Page not found', { statusCode: 404 });

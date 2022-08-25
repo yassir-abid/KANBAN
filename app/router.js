@@ -10,6 +10,7 @@ const router = express.Router();
 /** LIST */
 router.get('/lists', controllerHandler(listController.getAll));
 router.get('/lists/:id(\\d+)', controllerHandler(listController.getOne));
+router.post('/lists', controllerHandler(listController.create));
 
 router.use(() => {
     throw new ApiError('Page not found', { statusCode: 404 });

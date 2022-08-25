@@ -19,6 +19,14 @@ const listController = {
         }
         return res.json(list);
     },
+    create: async (req, res) => {
+        debug('create');
+        const newList = await List.create({
+            title: req.body.title,
+            position: req.body.position,
+        });
+        return res.json(newList);
+    },
 };
 
 module.exports = listController;

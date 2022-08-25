@@ -11,6 +11,7 @@ const router = express.Router();
 router.get('/lists', controllerHandler(listController.getAll));
 router.get('/lists/:id(\\d+)', controllerHandler(listController.getOne));
 router.post('/lists', controllerHandler(listController.create));
+router.patch('/lists/:id(\\d+)', controllerHandler(listController.update));
 
 router.use(() => {
     throw new ApiError('Page not found', { statusCode: 404 });

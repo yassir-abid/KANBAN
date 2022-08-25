@@ -27,6 +27,22 @@ const listController = {
         });
         return res.json(newList);
     },
+    update: async (req, res) => {
+        debug('update');
+        const { id } = req.params;
+        const list = await List.findByPk(id);
+        if (!list) {
+            throw new ApiError('List not found', { statusCode: 404 });
+        }
+        if (req.body.title) {
+            list.title = req.body.title;
+        }
+        if (req.body.position) {
+            list.position = req.body.position;
+        }
+        const updatedList = await list.save();
+        return res.json(updatedList);
+    },
 };
 
 module.exports = listController;

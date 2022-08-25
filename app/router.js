@@ -13,18 +13,16 @@ const router = express.Router();
 router.get('/:entity', controllerHandler(mainController.getAll));
 router.get('/:entity/:id(\\d+)', controllerHandler(mainController.getOne));
 router.post('/:entity', controllerHandler(mainController.create));
+router.patch('/:entity/:id(\\d+)', controllerHandler(mainController.update));
 
 /** LIST */
-router.patch('/lists/:id(\\d+)', controllerHandler(listController.update));
 router.delete('/lists/:id(\\d+)', controllerHandler(listController.delete));
 
 /** CARD */
-router.patch('/cards/:id(\\d+)', controllerHandler(cardController.update));
 router.delete('/cards/:id(\\d+)', controllerHandler(cardController.delete));
 router.get('/lists/:id(\\d+)/cards', controllerHandler(cardController.getCardsInList));
 
 /** LABEL */
-router.patch('/labels/:id(\\d+)', controllerHandler(labelController.update));
 router.delete('/labels/:id(\\d+)', controllerHandler(labelController.delete));
 router.post('/cards/:card_id(\\d+)/labels', controllerHandler(labelController.addLabelToCard));
 router.delete('/cards/:card_id(\\d+)/labels/:label_id(\\d+)', controllerHandler(labelController.removeLabelFromCard));

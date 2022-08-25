@@ -80,6 +80,29 @@ const mainController = {
 
         return res.json(newItem);
     },
+    update: async (req, res) => {
+        debug('update');
+        const { entity, id } = req.params;
+        const Model = mainController.getModel(entity);
+        if (!Model) {
+            throw new ApiError('Entity not found', { statusCode: 404 });
+        }
+        const item = await Model.findByPk(id);
+        if (!item) {
+            throw new ApiError('Item not found', { statusCode: 404 });
+        }
+        if (req.body.list_id) {
+            const list = await models.List.findByPk(req.body.list_id);
+            if (!list) {
+                throw new ApiError('List not found', { statusCode: 404 });
+            }
+        }
+
+        Object.assign(item, req.body);
+        const updatedItem = await item.save();
+
+        return res.json(updatedItem);
+    },
 };
 
 module.exports = {

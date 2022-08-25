@@ -1,4 +1,5 @@
 const listController = require('./list');
+const cardController = require('./card');
 
 const mainController = {
     test: (req, res) => {
@@ -6,4 +7,4 @@ const mainController = {
     },
 };
 
-module.exports = { mainController, listController };
+module.exports = { mainController, listController, cardController };

@@ -3,7 +3,7 @@ const express = require('express');
 const controllerHandler = require('./helpers/controllerHandler');
 const { errorHandler, ApiError } = require('./helpers/errorHandler');
 
-const { listController } = require('./controllers');
+const { listController, cardController } = require('./controllers');
 
 const router = express.Router();
 
@@ -13,6 +13,9 @@ router.get('/lists/:id(\\d+)', controllerHandler(listController.getOne));
 router.post('/lists', controllerHandler(listController.create));
 router.patch('/lists/:id(\\d+)', controllerHandler(listController.update));
 router.delete('/lists/:id(\\d+)', controllerHandler(listController.delete));
+
+/** CARD */
+router.get('/cards', controllerHandler(cardController.getAll));
 
 router.use(() => {
     throw new ApiError('Page not found', { statusCode: 404 });

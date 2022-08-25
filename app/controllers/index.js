@@ -36,6 +36,26 @@ const mainController = {
 
         return res.json(data);
     },
+    getOne: async (req, res) => {
+        debug('getOne');
+        const { entity, id } = req.params;
+        const Model = mainController.getModel(entity);
+        if (!Model) {
+            throw new ApiError('Entity not found', { statusCode: 404 });
+        }
+        const data = await Model.findByPk(id, {
+            include: {
+                all: true,
+                nested: true,
+            },
+            order: Model.orderDefault,
+        });
+        if (!data) {
+            throw new ApiError('Item not found', { statusCode: 404 });
+        }
+
+        return res.json(data);
+    },
 };
 
 module.exports = {

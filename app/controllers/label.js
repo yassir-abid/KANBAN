@@ -5,15 +5,6 @@ const { ApiError } = require('../helpers/errorHandler');
 const { Label, Card } = require('../models');
 
 const labelController = {
-    getOne: async (req, res) => {
-        debug('getOne');
-        const { id } = req.params;
-        const label = await Label.findByPk(id);
-        if (!label) {
-            throw new ApiError('Label not found', { statusCode: 404 });
-        }
-        return res.json(label);
-    },
     create: async (req, res) => {
         debug('create');
         if (!req.body.title) {

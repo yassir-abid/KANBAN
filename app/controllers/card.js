@@ -5,20 +5,6 @@ const { ApiError } = require('../helpers/errorHandler');
 const { Card, List } = require('../models');
 
 const cardController = {
-    getOne: async (req, res) => {
-        debug('getOne');
-        const { id } = req.params;
-        const card = await Card.findByPk(id, {
-            include: 'labels',
-            order: [
-                ['position', 'ASC'],
-            ],
-        });
-        if (!card) {
-            throw new ApiError('Card not found', { statusCode: 404 });
-        }
-        return res.json(card);
-    },
     create: async (req, res) => {
         debug('create');
         if (!req.body.title) {

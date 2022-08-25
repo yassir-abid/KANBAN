@@ -11,22 +11,23 @@ const router = express.Router();
 
 /** factorized CRUD routes */
 router.get('/:entity', controllerHandler(mainController.getAll));
+router.get('/:entity/:id(\\d+)', controllerHandler(mainController.getOne));
 
 /** LIST */
-router.get('/lists/:id(\\d+)', controllerHandler(listController.getOne));
+// router.get('/lists/:id(\\d+)', controllerHandler(listController.getOne));
 router.post('/lists', controllerHandler(listController.create));
 router.patch('/lists/:id(\\d+)', controllerHandler(listController.update));
 router.delete('/lists/:id(\\d+)', controllerHandler(listController.delete));
 
 /** CARD */
-router.get('/cards/:id(\\d+)', controllerHandler(cardController.getOne));
+// router.get('/cards/:id(\\d+)', controllerHandler(cardController.getOne));
 router.post('/cards', controllerHandler(cardController.create));
 router.patch('/cards/:id(\\d+)', controllerHandler(cardController.update));
 router.delete('/cards/:id(\\d+)', controllerHandler(cardController.delete));
 router.get('/lists/:id(\\d+)/cards', controllerHandler(cardController.getCardsInList));
 
 /** LABEL */
-router.get('/labels/:id(\\d+)', controllerHandler(labelController.getOne));
+// router.get('/labels/:id(\\d+)', controllerHandler(labelController.getOne));
 router.post('/labels', controllerHandler(labelController.create));
 router.patch('/labels/:id(\\d+)', controllerHandler(labelController.update));
 router.delete('/labels/:id(\\d+)', controllerHandler(labelController.delete));

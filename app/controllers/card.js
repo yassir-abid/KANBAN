@@ -32,10 +32,10 @@ const cardController = {
     create: async (req, res) => {
         debug('create');
         if (!req.body.title) {
-            throw new ApiError('title is required');
+            throw new ApiError('title is required', { statusCode: 400 });
         }
         if (!req.body.list_id) {
-            throw new ApiError('list_id is required');
+            throw new ApiError('list_id is required', { statusCode: 400 });
         }
         const list = await List.findByPk(req.body.list_id);
         if (!list) {

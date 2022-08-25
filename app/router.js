@@ -18,6 +18,7 @@ router.delete('/lists/:id(\\d+)', controllerHandler(listController.delete));
 router.get('/cards', controllerHandler(cardController.getAll));
 router.get('/cards/:id(\\d+)', controllerHandler(cardController.getOne));
 router.post('/cards', controllerHandler(cardController.create));
+router.patch('/cards/:id(\\d+)', controllerHandler(cardController.update));
 
 router.use(() => {
     throw new ApiError('Page not found', { statusCode: 404 });

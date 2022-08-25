@@ -50,6 +50,34 @@ const cardController = {
 
         return res.json(newCard);
     },
+    update: async (req, res) => {
+        debug('update');
+        const { id } = req.params;
+        const card = await Card.findByPk(id);
+        if (!card) {
+            throw new ApiError('Card not found', { statusCode: 404 });
+        }
+        // if (req.body.title) {
+        //     card.title = req.body.title;
+        // }
+        // if (req.body.color) {
+        //     card.color = req.body.color;
+        // }
+        // if (req.body.position) {
+        //     card.position = req.body.position;
+        // }
+        // if (req.body.list_id) {
+        //     card.list_id = req.body.list_id;
+        // }
+        Object.entries(req.body).forEach(([key, value]) => {
+            if (['title', 'position', 'color', 'list_id'].includes(key)) {
+                debug(key);
+                card[key] = value;
+            }
+        });
+        const updatedCard = await card.save();
+        return res.json(updatedCard);
+    },
 };
 
 module.exports = cardController;

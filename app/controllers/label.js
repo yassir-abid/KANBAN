@@ -52,6 +52,16 @@ const labelController = {
         const updatedLabel = await label.save();
         return res.json(updatedLabel);
     },
+    delete: async (req, res) => {
+        debug('delete');
+        const { id } = req.params;
+        const label = await Label.findByPk(id);
+        if (!label) {
+            throw new ApiError('Label not found', { statusCode: 404 });
+        }
+        await label.destroy();
+        return res.json('Label deleted');
+    },
 };
 
 module.exports = labelController;

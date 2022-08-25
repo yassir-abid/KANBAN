@@ -27,6 +27,7 @@ router.get('/labels', controllerHandler(labelController.getAll));
 router.get('/labels/:id(\\d+)', controllerHandler(labelController.getOne));
 router.post('/labels', controllerHandler(labelController.create));
 router.patch('/labels/:id(\\d+)', controllerHandler(labelController.update));
+router.delete('/labels/:id(\\d+)', controllerHandler(labelController.delete));
 
 router.use(() => {
     throw new ApiError('Page not found', { statusCode: 404 });

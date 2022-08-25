@@ -5,16 +5,6 @@ const { ApiError } = require('../helpers/errorHandler');
 const { Card, List } = require('../models');
 
 const cardController = {
-    delete: async (req, res) => {
-        debug('delete');
-        const { id } = req.params;
-        const card = await Card.findByPk(id);
-        if (!card) {
-            throw new ApiError('Card not found', { statusCode: 404 });
-        }
-        await card.destroy();
-        return res.json('Card deleted');
-    },
     getCardsInList: async (req, res) => {
         debug('getCardsInList');
         const { id } = req.params;

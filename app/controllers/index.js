@@ -2,7 +2,6 @@ const debug = require('debug')('mainController');
 
 const { ApiError } = require('../helpers/errorHandler');
 
-const listController = require('./list');
 const cardController = require('./card');
 const labelController = require('./label');
 
@@ -103,8 +102,24 @@ const mainController = {
 
         return res.json(updatedItem);
     },
+    delete: async (req, res) => {
+        debug('delete');
+        const { entity, id } = req.params;
+        const Model = mainController.getModel(entity);
+        if (!Model) {
+            throw new ApiError('Entity not found', { statusCode: 404 });
+        }
+        const item = await Model.findByPk(id);
+        if (!item) {
+            throw new ApiError('Item not found', { statusCode: 404 });
+        }
+
+        await item.destroy();
+
+        return res.json('Item deleted');
+    },
 };
 
 module.exports = {
-    mainController, listController, cardController, labelController,
+    mainController, cardController, labelController,
 };

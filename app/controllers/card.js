@@ -78,6 +78,16 @@ const cardController = {
         const updatedCard = await card.save();
         return res.json(updatedCard);
     },
+    delete: async (req, res) => {
+        debug('delete');
+        const { id } = req.params;
+        const card = await Card.findByPk(id);
+        if (!card) {
+            throw new ApiError('Card not found', { statusCode: 404 });
+        }
+        await card.destroy();
+        return res.json('Card deleted');
+    },
 };
 
 module.exports = cardController;

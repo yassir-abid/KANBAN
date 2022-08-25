@@ -19,6 +19,7 @@ router.get('/cards', controllerHandler(cardController.getAll));
 router.get('/cards/:id(\\d+)', controllerHandler(cardController.getOne));
 router.post('/cards', controllerHandler(cardController.create));
 router.patch('/cards/:id(\\d+)', controllerHandler(cardController.update));
+router.delete('/cards/:id(\\d+)', controllerHandler(cardController.delete));
 
 router.use(() => {
     throw new ApiError('Page not found', { statusCode: 404 });

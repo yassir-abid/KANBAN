@@ -6,7 +6,7 @@
     "scripts": {
         "test": "DEBUG=test,-express:*,-nodemon*,-body*,-send* node test.js",
         "start": "node .",
-        "dev": "DEBUG=*,-express:*,-nodemon*,-body*,-send* node-dev index --notify=false"
+        "dev": "DEBUG=*,-express:*,-nodemon*,-body*,-send*,-sequelize* node-dev index --notify=false"
     },
     "repository": {
         "type": "git",

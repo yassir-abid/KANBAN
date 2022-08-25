@@ -1,7 +1,15 @@
 const { Model, DataTypes } = require('sequelize');
 const sequelizeInstance = require('../config/database');
 
-class Card extends Model { }
+class Card extends Model {
+    static routeName = 'cards';
+
+    static orderDefault = [
+        ['position', 'ASC'],
+    ];
+
+    static requiredFields = ['title', 'list_id'];
+}
 
 Card.init({
     title: DataTypes.TEXT,

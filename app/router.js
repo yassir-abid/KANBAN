@@ -12,6 +12,7 @@ router.get('/lists', controllerHandler(listController.getAll));
 router.get('/lists/:id(\\d+)', controllerHandler(listController.getOne));
 router.post('/lists', controllerHandler(listController.create));
 router.patch('/lists/:id(\\d+)', controllerHandler(listController.update));
+router.delete('/lists/:id(\\d+)', controllerHandler(listController.delete));
 
 router.use(() => {
     throw new ApiError('Page not found', { statusCode: 404 });

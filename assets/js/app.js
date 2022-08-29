@@ -3,7 +3,27 @@ const app = {
     base_url: 'http://localhost:3000',
 
     init: () => {
+        app.addListenerToActions();
         app.getListsFromAPI();
+    },
+
+    addListenerToActions: () => {
+        /* open add list modal */
+        document.getElementById('addListButton').addEventListener('click', app.showAddListModal);
+
+        /* close modals */
+        const closeButtons = document.querySelectorAll('.close');
+        closeButtons.forEach((btn) => btn.addEventListener('click', app.hideModals));
+    },
+
+    showAddListModal: () => {
+        const modal = document.getElementById('addListModal');
+        modal.querySelector('input[name="title"]').value = '';
+        modal.classList.add('is-active');
+    },
+
+    hideModals: () => {
+        document.getElementById('addListModal').classList.remove('is-active');
     },
 
     getListsFromAPI: async () => {

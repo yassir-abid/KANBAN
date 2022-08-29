@@ -12,6 +12,7 @@ const app = {
             const lists = await response.json();
             lists.forEach((list) => {
                 app.makeListInDOM(list);
+                list.cards.forEach((card) => app.makeCardInDOM(card));
             });
         } catch (error) {
             console.error(error);
@@ -26,6 +27,18 @@ const app = {
         clone.querySelector('.panel').dataset.listId = list.id;
 
         document.querySelector('.card-lists').appendChild(clone);
+    },
+
+    makeCardInDOM: (card) => {
+        const template = document.getElementById('cardTemplate');
+        const clone = document.importNode(template.content, true);
+
+        clone.querySelector('h3').textContent = card.title;
+        clone.querySelector('.box').dataset.cardId = card.id;
+        clone.querySelector('.box').style.backgroundColor = card.color;
+
+        const list = document.querySelector(`div[data-list-id="${card.list_id}"]`);
+        list.querySelector('.panel-block').appendChild(clone);
     },
 
 };

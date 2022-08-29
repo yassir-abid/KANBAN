@@ -20,115 +20,7 @@
 
                 <div class="column is-full">
                     <div class="card-lists columns">
-                        <!-- list -->
-                        <div class="column is-one-quarter panel" data-list-id="1">
-                            <div class="panel-heading has-background-info">
-                                <div class="columns">
 
-                                    <div class="column">
-                                        <h2 class="has-text-white">Perso</h2>
-                                    </div>
-
-                                    <div class="column is-narrow">
-                                        <a href="#" class="is-pulled-right">
-                                            <span class="icon is-small has-text-white">
-                                                <i class="fas fa-plus"></i>
-                                            </span>
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="panel-block is-block has-background-light">
-                                <!-- card -->
-                                <div class="box" data-card-id="1">
-                                    <div class="columns">
-                                        <div class="column">
-                                            Faire les courses
-                                        </div>
-                                        <div class="column is-narrow">
-                                            <a href="#">
-                                                <span class="icon is-small has-text-primary">
-                                                    <i class="fas fa-pencil-alt"></i>
-                                                </span>
-                                            </a>
-                                            <a href="#">
-                                                <span class="icon is-small has-text-danger">
-                                                    <i class="fas fa-trash-alt"></i>
-                                                </span>
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!--/ card -->
-                            </div>
-                        </div>
-                        <!--/ list -->
-
-                        <!-- list -->
-                        <div class="column is-one-quarter panel" data-list-id="2">
-                            <div class="panel-heading has-background-info">
-                                <div class="columns">
-                                    <div class="column">
-                                        <h2 class="has-text-white">Dev</h2>
-                                    </div>
-
-                                    <div class="column is-narrow">
-                                        <a href="#" class="is-pulled-right">
-                                            <span class="icon is-small has-text-white">
-                                                <i class="fas fa-plus"></i>
-                                            </span>
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="panel-block is-block has-background-light">
-
-                                <!-- card -->
-                                <div class="box" data-card-id="1">
-                                    <div class="columns">
-                                        <div class="column">
-                                            Mettre en place les formulaires
-                                        </div>
-                                        <div class="column is-narrow">
-                                            <a href="#">
-                                                <span class="icon is-small has-text-primary">
-                                                    <i class="fas fa-pencil-alt"></i>
-                                                </span>
-                                            </a>
-                                            <a href="#">
-                                                <span class="icon is-small has-text-danger">
-                                                    <i class="fas fa-trash-alt"></i>
-                                                </span>
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!--/ card -->
-
-                                <!-- card -->
-                                <div class="box" data-card-id="2">
-                                    <div class="columns">
-                                        <div class="column">
-                                            Brancher l'API
-                                        </div>
-                                        <div class="column is-narrow">
-                                            <a href="#">
-                                                <span class="icon is-small has-text-primary">
-                                                    <i class="fas fa-pencil-alt"></i>
-                                                </span>
-                                            </a>
-                                            <a href="#">
-                                                <span class="icon is-small has-text-danger">
-                                                    <i class="fas fa-trash-alt"></i>
-                                                </span>
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!--/ card -->
-                            </div>
-                        </div>
-                        <!--/ list -->
                     </div>
                 </div>
                 <div class="column">
@@ -143,6 +35,32 @@
             </div>
         </div>
     </section>
+
+    <!-- list-template -->
+    <template id="listTemplate">
+        <div class="column is-one-quarter panel" data-list-id="">
+            <div class="panel-heading has-background-info">
+                <div class="columns">
+
+                    <div class="column">
+                        <h2 class="has-text-white"></h2>
+                    </div>
+
+                    <div class="column is-narrow">
+                        <a href="#" class="is-pulled-right">
+                            <span class="icon is-small has-text-white">
+                                <i class="fas fa-plus"></i>
+                            </span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="panel-block is-block has-background-light">
+
+            </div>
+        </div>
+    </template>
+    <!-- list-template -->
 
     <script src="./assets/js/app.js"></script>
 </body>

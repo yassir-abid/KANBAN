@@ -132,7 +132,7 @@ const app = {
     },
 
     deleteList: async (event) => {
-        const list = event.target.closest('.panel');
+        const list = event.target.closest('div[data-list-id]');
         const id = list.dataset.listId;
 
         // eslint-disable-next-line no-restricted-globals
@@ -157,6 +157,7 @@ const app = {
         clone.querySelector('.box').style.backgroundColor = card.color;
 
         clone.querySelector('.edit-card-icon').addEventListener('click', app.showEditCardForm);
+        clone.querySelector('.delete-card-icon').addEventListener('click', app.deleteCard);
 
         const form = clone.querySelector('form');
         form.addEventListener('submit', app.handleEditCardForm);
@@ -201,6 +202,23 @@ const app = {
 
             event.target.classList.add('is-hidden');
             h3.classList.remove('is-hidden');
+        } catch (error) {
+            console.error(error);
+        }
+    },
+
+    deleteCard: async (event) => {
+        const card = event.target.closest('div[data-card-id]');
+        const id = card.dataset.cardId;
+
+        // eslint-disable-next-line no-restricted-globals
+        if (!confirm('Voulez-vous vraiment supprimer cette carte ?')) return;
+
+        try {
+            await fetch(`${app.base_url}/cards/${id}`, {
+                method: 'DELETE',
+            });
+            card.remove();
         } catch (error) {
             console.error(error);
         }

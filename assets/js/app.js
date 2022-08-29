@@ -12,7 +12,7 @@ const app = {
         document.getElementById('addListButton').addEventListener('click', app.showAddListModal);
 
         /* open add card modal */
-        const addCardButtons = document.querySelectorAll('.is-pulled-right');
+        const addCardButtons = document.querySelectorAll('.add-card-icon');
         addCardButtons.forEach((element) => element.addEventListener('click', app.showAddCardModal));
 
         /* close modals */
@@ -78,7 +78,8 @@ const app = {
         const template = document.getElementById('listTemplate');
         const clone = document.importNode(template.content, true);
 
-        clone.querySelector('.is-pulled-right').addEventListener('click', app.showAddCardModal);
+        clone.querySelector('.add-card-icon').addEventListener('click', app.showAddCardModal);
+        clone.querySelector('.delete-list-icon').addEventListener('click', app.deleteList);
 
         const title = clone.querySelector('h2');
         title.textContent = list.title;
@@ -125,6 +126,23 @@ const app = {
 
             event.target.classList.add('is-hidden');
             titleHTML.classList.remove('is-hidden');
+        } catch (error) {
+            console.error(error);
+        }
+    },
+
+    deleteList: async (event) => {
+        const list = event.target.closest('.panel');
+        const id = list.dataset.listId;
+
+        // eslint-disable-next-line no-restricted-globals
+        if (!confirm('Voulez-vous vraiment supprimer cette liste ?')) return;
+
+        try {
+            await fetch(`${app.base_url}/lists/${id}`, {
+                method: 'DELETE',
+            });
+            list.remove();
         } catch (error) {
             console.error(error);
         }

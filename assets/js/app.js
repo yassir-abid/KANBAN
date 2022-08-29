@@ -50,6 +50,12 @@ const app = {
         modal.classList.add('is-active');
     },
 
+    showEditCardForm: (event) => {
+        const container = event.target.closest('.columns');
+        container.querySelector('h3').classList.add('is-hidden');
+        container.querySelector('form').classList.remove('is-hidden');
+    },
+
     hideModals: () => {
         const modals = document.querySelectorAll('.modal');
         modals.forEach((modal) => modal.classList.remove('is-active'));
@@ -132,6 +138,14 @@ const app = {
         clone.querySelector('.box').dataset.cardId = card.id;
         clone.querySelector('.box').style.backgroundColor = card.color;
 
+        clone.querySelector('.edit-card-icon').addEventListener('click', app.showEditCardForm);
+
+        const form = clone.querySelector('form');
+        form.addEventListener('submit', app.handleEditCardForm);
+        form.querySelector('input[name="title"]').value = card.title;
+        form.querySelector('input[name="card-id"]').value = card.id;
+        form.querySelector('input[name="color"]').value = card.color;
+
         const list = document.querySelector(`div[data-list-id="${card.list_id}"]`);
         list.querySelector('.panel-block').appendChild(clone);
     },
@@ -147,6 +161,28 @@ const app = {
             const card = await response.json();
             app.makeCardInDOM(card);
             app.hideModals();
+        } catch (error) {
+            console.error(error);
+        }
+    },
+
+    handleEditCardForm: async (event) => {
+        event.preventDefault();
+        const formData = new FormData(event.target);
+        const h3 = event.target.closest('.columns').querySelector('h3');
+        try {
+            const response = await fetch(`${app.base_url}/cards/${formData.get('card-id')}`, {
+                method: 'PATCH',
+                body: formData,
+            });
+            const updatedCard = await response.json();
+            h3.textContent = updatedCard.title;
+
+            const cardDOM = event.target.closest('.box');
+            cardDOM.style.backgroundColor = updatedCard.color;
+
+            event.target.classList.add('is-hidden');
+            h3.classList.remove('is-hidden');
         } catch (error) {
             console.error(error);
         }

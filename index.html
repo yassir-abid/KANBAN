@@ -135,14 +135,29 @@
             <div class="columns">
                 <div class="column">
                     <h3></h3>
+                    <form action="" method="POST" class="is-hidden">
+                        <input type="hidden" name="card-id" value="">
+                        <div class="field has-addons">
+                            <div class="control">
+                                <input type="text" class="input is-small" name="title" value=""
+                                    placeholder="Nom de la carte">
+                            </div>
+                            <div class="control">
+                                <input type="color" class="input is-small originWidth" name="color" value="">
+                            </div>
+                            <div class="control">
+                                <button class="button is-small is-success">Valider</button>
+                            </div>
+                        </div>
+                    </form>
                 </div>
                 <div class="column is-narrow">
-                    <a href="#">
+                    <a href="#" class="edit-card-icon">
                         <span class="icon is-small has-text-primary">
                             <i class="fas fa-pencil-alt"></i>
                         </span>
                     </a>
-                    <a href="#">
+                    <a href="#" class="delete-card-icon">
                         <span class="icon is-small has-text-danger">
                             <i class="fas fa-trash-alt"></i>
                         </span>

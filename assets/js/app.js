@@ -30,6 +30,11 @@ const app = {
         modal.classList.add('is-active');
     },
 
+    showEditListForm: (event) => {
+        event.target.classList.add('is-hidden');
+        event.target.nextElementSibling.classList.remove('is-hidden');
+    },
+
     showAddCardModal: (event) => {
         const listHTML = event.target.closest('.panel');
         const listID = listHTML.dataset.listId;
@@ -68,7 +73,16 @@ const app = {
         const clone = document.importNode(template.content, true);
 
         clone.querySelector('.is-pulled-right').addEventListener('click', app.showAddCardModal);
-        clone.querySelector('h2').textContent = list.title;
+
+        const title = clone.querySelector('h2');
+        title.textContent = list.title;
+        title.addEventListener('dblclick', app.showEditListForm);
+
+        const form = clone.querySelector('form');
+        form.addEventListener('submit', app.handleEditListForm);
+        form.querySelector('input[name="title"]').value = list.title;
+        form.querySelector('input[name="list-id"]').value = list.id;
+
         clone.querySelector('.panel').dataset.listId = list.id;
 
         document.querySelector('.card-lists').appendChild(clone);
@@ -85,6 +99,26 @@ const app = {
             const list = await response.json();
             app.makeListInDOM(list);
             app.hideModals();
+        } catch (error) {
+            console.error(error);
+        }
+    },
+
+    async handleEditListForm(event) {
+        event.preventDefault();
+        const formData = new FormData(event.target);
+        const titleHTML = event.target.previousElementSibling;
+        try {
+            const response = await fetch(`${app.base_url}/lists/${formData.get('list-id')}`, {
+                method: 'PATCH',
+                body: formData,
+            });
+            const list = await response.json();
+
+            titleHTML.textContent = list.title;
+
+            event.target.classList.add('is-hidden');
+            titleHTML.classList.remove('is-hidden');
         } catch (error) {
             console.error(error);
         }

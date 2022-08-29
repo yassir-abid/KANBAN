@@ -21,6 +21,7 @@ const app = {
 
         /* handle forms */
         document.querySelector('#addListModal form').addEventListener('submit', app.handleAddListForm);
+        document.querySelector('#addCardModal form').addEventListener('submit', app.handleAddCardForm);
     },
 
     showAddListModal: () => {
@@ -99,6 +100,22 @@ const app = {
 
         const list = document.querySelector(`div[data-list-id="${card.list_id}"]`);
         list.querySelector('.panel-block').appendChild(clone);
+    },
+
+    handleAddCardForm: async (event) => {
+        event.preventDefault();
+        const formData = new FormData(event.target);
+        try {
+            const response = await fetch(`${app.base_url}/cards`, {
+                method: 'POST',
+                body: formData,
+            });
+            const card = await response.json();
+            app.makeCardInDOM(card);
+            app.hideModals();
+        } catch (error) {
+            console.error(error);
+        }
     },
 
 };

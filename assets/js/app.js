@@ -14,6 +14,9 @@ const app = {
         /* close modals */
         const closeButtons = document.querySelectorAll('.close');
         closeButtons.forEach((btn) => btn.addEventListener('click', app.hideModals));
+
+        /* handle forms */
+        document.querySelector('#addListModal form').addEventListener('submit', app.handleAddListForm);
     },
 
     showAddListModal: () => {
@@ -47,6 +50,22 @@ const app = {
         clone.querySelector('.panel').dataset.listId = list.id;
 
         document.querySelector('.card-lists').appendChild(clone);
+    },
+
+    handleAddListForm: async (event) => {
+        event.preventDefault();
+        const formData = new FormData(event.target);
+        try {
+            const response = await fetch(`${app.base_url}/lists`, {
+                method: 'POST',
+                body: formData,
+            });
+            const list = await response.json();
+            app.makeListInDOM(list);
+            app.hideModals();
+        } catch (error) {
+            console.error(error);
+        }
     },
 
     makeCardInDOM: (card) => {

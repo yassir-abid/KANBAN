@@ -11,6 +11,10 @@ const app = {
         /* open add list modal */
         document.getElementById('addListButton').addEventListener('click', app.showAddListModal);
 
+        /* open add card modal */
+        const addCardButtons = document.querySelectorAll('.is-pulled-right');
+        addCardButtons.forEach((element) => element.addEventListener('click', app.showAddCardModal));
+
         /* close modals */
         const closeButtons = document.querySelectorAll('.close');
         closeButtons.forEach((btn) => btn.addEventListener('click', app.hideModals));
@@ -25,8 +29,24 @@ const app = {
         modal.classList.add('is-active');
     },
 
+    showAddCardModal: (event) => {
+        const listHTML = event.target.closest('.panel');
+        const listID = listHTML.dataset.listId;
+
+        const modal = document.getElementById('addCardModal');
+
+        const listIdInput = modal.querySelector('input[name="list_id"]');
+        listIdInput.value = listID;
+
+        const titleInput = modal.querySelector('input[name="title"]');
+        titleInput.value = '';
+
+        modal.classList.add('is-active');
+    },
+
     hideModals: () => {
-        document.getElementById('addListModal').classList.remove('is-active');
+        const modals = document.querySelectorAll('.modal');
+        modals.forEach((modal) => modal.classList.remove('is-active'));
     },
 
     getListsFromAPI: async () => {
@@ -46,6 +66,7 @@ const app = {
         const template = document.getElementById('listTemplate');
         const clone = document.importNode(template.content, true);
 
+        clone.querySelector('.is-pulled-right').addEventListener('click', app.showAddCardModal);
         clone.querySelector('h2').textContent = list.title;
         clone.querySelector('.panel').dataset.listId = list.id;
 

@@ -67,7 +67,11 @@ const app = {
             const lists = await response.json();
             lists.forEach((list) => {
                 app.makeListInDOM(list);
-                list.cards.forEach((card) => app.makeCardInDOM(card));
+                console.log(list);
+                list.cards.forEach((card) => {
+                    app.makeCardInDOM(card);
+                    card.labels.forEach((label) => app.makeLabelInDOM(label));
+                });
             });
         } catch (error) {
             console.error(error);
@@ -222,6 +226,19 @@ const app = {
         } catch (error) {
             console.error(error);
         }
+    },
+
+    makeLabelInDOM: (label) => {
+        const template = document.getElementById('label-template');
+        const clone = document.importNode(template.content, true);
+
+        const labelHTML = clone.querySelector('.tag');
+        labelHTML.textContent = label.title;
+        labelHTML.dataset.labelId = label.id;
+        labelHTML.style.backgroundColor = label.color;
+
+        const card = document.querySelector(`div[data-card-id="${label.card_has_label.card_id}"]`);
+        card.querySelector('.labels').appendChild(clone);
     },
 
 };

@@ -22,6 +22,7 @@ const app = {
         /* handle forms */
         document.querySelector('#addListModal form').addEventListener('submit', app.handleAddListForm);
         document.querySelector('#addCardModal form').addEventListener('submit', app.handleAddCardForm);
+        document.querySelector('#addLabelModal form').addEventListener('submit', app.associateLabelToCard);
     },
 
     showAddListModal: () => {
@@ -50,10 +51,39 @@ const app = {
         modal.classList.add('is-active');
     },
 
-    showEditCardForm: (event) => {
+    showEditCardForm: async (event) => {
         const container = event.target.closest('.columns');
         container.querySelector('h3').classList.add('is-hidden');
         container.querySelector('form').classList.remove('is-hidden');
+    },
+
+    showAddLabelModal: async (event) => {
+        const { cardId } = event.target.closest('.box').dataset;
+        const modal = document.querySelector('#addLabelModal');
+        modal.querySelector('input[type="hidden"]').value = cardId;
+        try {
+            const cardResponse = await fetch(`${app.base_url}/cards/${cardId}`);
+            const card = await cardResponse.json();
+
+            const labelsResponse = await fetch(`${app.base_url}/labels`);
+            const labels = await labelsResponse.json();
+
+            const select = modal.querySelector('select');
+            select.innerHTML = '';
+            labels.forEach((label) => {
+                const foundedLabel = card.labels.find((cardLabel) => cardLabel.id === label.id);
+                if (!foundedLabel) {
+                    const option = document.createElement('option');
+                    option.textContent = label.title;
+                    option.value = label.id;
+                    select.appendChild(option);
+                }
+            });
+        } catch (error) {
+            console.error(error);
+        }
+
+        modal.classList.add('is-active');
     },
 
     hideModals: () => {
@@ -67,7 +97,6 @@ const app = {
             const lists = await response.json();
             lists.forEach((list) => {
                 app.makeListInDOM(list);
-                console.log(list);
                 list.cards.forEach((card) => {
                     app.makeCardInDOM(card);
                     card.labels.forEach((label) => app.makeLabelInDOM(label));
@@ -162,6 +191,7 @@ const app = {
 
         clone.querySelector('.edit-card-icon').addEventListener('click', app.showEditCardForm);
         clone.querySelector('.delete-card-icon').addEventListener('click', app.deleteCard);
+        clone.querySelector('.add-label-icon').addEventListener('click', app.showAddLabelModal);
 
         const form = clone.querySelector('form');
         form.addEventListener('submit', app.handleEditCardForm);
@@ -239,6 +269,25 @@ const app = {
 
         const card = document.querySelector(`div[data-card-id="${label.card_has_label.card_id}"]`);
         card.querySelector('.labels').appendChild(clone);
+    },
+
+    associateLabelToCard: async (event) => {
+        event.preventDefault();
+        const formData = new FormData(event.target);
+        const cardId = formData.get('card_id');
+        try {
+            const response = await fetch(`${app.base_url}/cards/${cardId}/labels`, {
+                method: 'POST',
+                body: formData,
+            });
+            const card = await response.json();
+            const label = card.labels.find((cardLabel) => Number(cardLabel.id) === Number(formData.get('label_id')));
+
+            app.makeLabelInDOM(label);
+            app.hideModals();
+        } catch (error) {
+            console.error(error);
+        }
     },
 
 };

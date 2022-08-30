@@ -91,6 +91,33 @@
         </div>
     </div>
 
+    <div class="modal" id="addLabelModal">
+        <div class="modal-background"></div>
+        <div class="modal-card">
+            <form action="" method="POST">
+                <header class="modal-card-head">
+                    <p class="modal-card-title">Ajouter un label</p>
+                    <button class="delete close" type="button" aria-label="close"></button>
+                </header>
+                <section class="modal-card-body">
+                    <div class="field">
+                        <label class="label">Label</label>
+                        <div class="control">
+                            <select class="select" name="label_id">
+
+                            </select>
+                            <input type="hidden" name="card_id" value="">
+                        </div>
+                    </div>
+                </section>
+                <footer class="modal-card-foot">
+                    <button class="button is-success">Valider</button>
+                    <button class="button close" type="button">Annuler</button>
+                </footer>
+            </form>
+        </div>
+    </div>
+
     <!-- list-template -->
     <template id="listTemplate">
         <div class="column is-one-quarter panel" data-list-id="">
@@ -157,6 +184,11 @@
                     </form>
                 </div>
                 <div class="column is-narrow">
+                    <a href="#" class="add-label-icon">
+                        <span class="icon is-small has-text-primary">
+                            <i class="fas fa-tag"></i>
+                        </span>
+                    </a>
                     <a href="#" class="edit-card-icon">
                         <span class="icon is-small has-text-primary">
                             <i class="fas fa-pencil-alt"></i>

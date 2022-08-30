@@ -5,6 +5,7 @@ const app = {
     init: () => {
         app.addListenerToActions();
         app.getListsFromAPI();
+        app.getLabelsFromAPI();
     },
 
     addListenerToActions: () => {
@@ -14,6 +15,9 @@ const app = {
         /* open add card modal */
         const addCardButtons = document.querySelectorAll('.add-card-icon');
         addCardButtons.forEach((element) => element.addEventListener('click', app.showAddCardModal));
+
+        /* open edit label modal */
+        document.getElementById('editLabelButton').addEventListener('click', app.showEditLabelsModal);
 
         /* close modals */
         const closeButtons = document.querySelectorAll('.close');
@@ -86,9 +90,45 @@ const app = {
         modal.classList.add('is-active');
     },
 
+    showEditLabelsModal: (event) => {
+        event.preventDefault();
+        document.getElementById('editLabelsModal').classList.add('is-active');
+    },
+
+    showEditLabelForm: (event) => {
+        const label = event.target.closest('div[data-label-id]');
+        label.querySelector('#label-name').classList.add('is-hidden');
+        label.querySelector('form').classList.remove('is-hidden');
+    },
+
     hideModals: () => {
         const modals = document.querySelectorAll('.modal');
         modals.forEach((modal) => modal.classList.remove('is-active'));
+    },
+
+    getLabelsFromAPI: async () => {
+        try {
+            const response = await fetch(`${app.base_url}/labels`);
+            const labels = await response.json();
+
+            const template = document.getElementById('edit-label-template');
+            labels.forEach((label) => {
+                const clone = document.importNode(template.content, true);
+                clone.querySelector('#label-name').textContent = label.title;
+                clone.querySelector('input[name="title"]').value = label.title;
+                clone.querySelector('div[data-label-id]').dataset.labelId = label.id;
+                clone.querySelector('input[name="label-id"]').value = label.id;
+                clone.querySelector('input[name="color"]').value = label.color;
+
+                clone.querySelector('.edit-label-icon').addEventListener('click', app.showEditLabelForm);
+                clone.querySelector('form').addEventListener('submit', app.handleEditLabelForm);
+                clone.querySelector('.delete-label-icon').addEventListener('click', app.deleteLabel);
+
+                document.querySelector('#editLabelsModal .labels').appendChild(clone);
+            });
+        } catch (error) {
+            console.error(error);
+        }
     },
 
     getListsFromAPI: async () => {
@@ -305,6 +345,59 @@ const app = {
                 method: 'DELETE',
             });
             labelHTML.remove();
+        } catch (error) {
+            console.error(error);
+        }
+    },
+
+    handleEditLabelForm: async (event) => {
+        event.preventDefault();
+        const formData = new FormData(event.target);
+
+        try {
+            const response = await fetch(`${app.base_url}/labels/${formData.get('label-id')}`, {
+                method: 'PATCH',
+                body: formData,
+            });
+            const label = await response.json();
+
+            const labelHTML = event.target.closest('div[data-label-id]').querySelector('div#label-name');
+            labelHTML.textContent = label.title;
+            labelHTML.classList.remove('is-hidden');
+            event.target.classList.add('is-hidden');
+
+            const labelsInDOM = document.querySelectorAll('.tag[data-label-id]');
+            labelsInDOM.forEach((el) => {
+                if (Number(el.dataset.labelId) === label.id) {
+                    const title = el.querySelector('.label-title');
+                    title.textContent = label.title;
+                    // eslint-disable-next-line no-param-reassign
+                    el.style.backgroundColor = label.color;
+                }
+            });
+        } catch (error) {
+            console.error(error);
+        }
+    },
+
+    deleteLabel: async (event) => {
+        // eslint-disable-next-line no-restricted-globals
+        if (!confirm('Voulez-vous vraiment supprimer ce label ?')) return;
+
+        const id = event.target.closest('div[data-label-id]').dataset.labelId;
+
+        try {
+            await fetch(`${app.base_url}/labels/${id}`, {
+                method: 'DELETE',
+            });
+            event.target.closest('div[data-label-id]').remove();
+
+            const labelsInDOM = document.querySelectorAll('.tag[data-label-id]');
+            labelsInDOM.forEach((el) => {
+                if (Number(el.dataset.labelId) === Number(id)) {
+                    el.remove();
+                }
+            });
         } catch (error) {
             console.error(error);
         }

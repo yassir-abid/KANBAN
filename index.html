@@ -16,20 +16,26 @@
             <h1 class="title">
                 Kanban
             </h1>
+            <div class="column">
+                <button class="button is-success" id="addListButton">
+                    <span class="icon is-small">
+                        <i class="fas fa-plus"></i>
+                    </span>
+                    &nbsp; Ajouter une liste
+                </button>
+                <button class="button is-success" id="editLabelButton">
+                    <span class="icon is-small">
+                        <i class="fas fa-plus"></i>
+                    </span>
+                    &nbsp; Editer les labels
+                </button>
+            </div>
             <div class="columns">
 
                 <div class="column is-full">
                     <div class="card-lists columns">
 
                     </div>
-                </div>
-                <div class="column">
-                    <button class="button is-success" id="addListButton">
-                        <span class="icon is-small">
-                            <i class="fas fa-plus"></i>
-                        </span>
-                        &nbsp; Ajouter une liste
-                    </button>
                 </div>
 
             </div>
@@ -115,6 +121,20 @@
                     <button class="button close" type="button">Annuler</button>
                 </footer>
             </form>
+        </div>
+    </div>
+
+    <div class="modal" id="editLabelsModal">
+        <div class="modal-background"></div>
+        <div class="modal-card">
+            <header class="modal-card-head">
+                <p class="modal-card-title">Editer les labels</p>
+                <button class="delete close" type="button" aria-label="close"></button>
+            </header>
+            <div class="modal-card-body labels"> </div>
+            <footer class="modal-card-foot">
+                <button class="button close" type="button">Fermer</button>
+            </footer>
         </div>
     </div>
 
@@ -218,6 +238,43 @@
         </div>
     </template>
     <!-- / label-template -->
+
+    <!-- edit-label-template -->
+    <template id="edit-label-template">
+        <div class="modal-card-body columns" data-label-id="1">
+            <div class="column" id="label-name">
+            </div>
+            <div class="column">
+                <form class="is-hidden">
+                    <input type="hidden" name="label-id" value="1">
+                    <div class="field has-addons">
+                        <div class="control">
+                            <input type="text" class="input is-small" name="title" value="" placeholder="Nom du label">
+                        </div>
+                        <div class="control">
+                            <input type="color" class="input is-small originWidth" name="color" value="">
+                        </div>
+                        <div class="control">
+                            <button class="button is-small is-success">Valider</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="column is-narrow" id="tools">
+                <a href="#" class="edit-label-icon">
+                    <span class="icon is-small has-text-primary">
+                        <i class="fas fa-pencil-alt"></i>
+                    </span>
+                </a>
+                <a href="#" class="delete-label-icon">
+                    <span class="icon is-small has-text-danger">
+                        <i class="fas fa-trash-alt"></i>
+                    </span>
+                </a>
+            </div>
+        </div>
+    </template>
+    <!-- / edit-label-template -->
 
     <script src="./assets/js/app.js"></script>
 </body>

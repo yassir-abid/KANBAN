@@ -7,6 +7,7 @@ class List extends Model {
     static orderDefault = [
         ['position', 'ASC'],
         ['cards', 'position', 'ASC'],
+        ['cards', 'labels', 'title', 'ASC'],
     ];
 
     static requiredFields = ['title'];

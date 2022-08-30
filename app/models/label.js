@@ -4,7 +4,9 @@ const sequelizeInstance = require('../config/database');
 class Label extends Model {
     static routeName = 'labels';
 
-    static orderDefault = [];
+    static orderDefault = [
+        ['title', 'ASC'],
+    ];
 
     static requiredFields = ['title'];
 }

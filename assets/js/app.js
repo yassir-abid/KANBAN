@@ -263,9 +263,11 @@ const app = {
         const clone = document.importNode(template.content, true);
 
         const labelHTML = clone.querySelector('.tag');
-        labelHTML.textContent = label.title;
+        labelHTML.querySelector('.label-title').textContent = label.title;
         labelHTML.dataset.labelId = label.id;
         labelHTML.style.backgroundColor = label.color;
+
+        labelHTML.querySelector('.delete').addEventListener('click', app.dissociateLabelFromCard);
 
         const card = document.querySelector(`div[data-card-id="${label.card_has_label.card_id}"]`);
         card.querySelector('.labels').appendChild(clone);
@@ -285,6 +287,24 @@ const app = {
 
             app.makeLabelInDOM(label);
             app.hideModals();
+        } catch (error) {
+            console.error(error);
+        }
+    },
+
+    dissociateLabelFromCard: async (event) => {
+        const labelHTML = event.target.closest('.tag');
+        const { labelId } = labelHTML.dataset;
+        const { cardId } = event.target.closest('.box').dataset;
+
+        // eslint-disable-next-line no-restricted-globals
+        if (!confirm('Voulez-vous vraiment supprimer ce label ?')) return;
+
+        try {
+            await fetch(`${app.base_url}/cards/${cardId}/labels/${labelId}`, {
+                method: 'DELETE',
+            });
+            labelHTML.remove();
         } catch (error) {
             console.error(error);
         }

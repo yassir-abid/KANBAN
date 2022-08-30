@@ -18,6 +18,7 @@ const app = {
 
         /* open edit label modal */
         document.getElementById('editLabelButton').addEventListener('click', app.showEditLabelsModal);
+        document.getElementById('addLabelButton').addEventListener('click', app.showAddLabelForm);
 
         /* close modals */
         const closeButtons = document.querySelectorAll('.close');
@@ -26,7 +27,8 @@ const app = {
         /* handle forms */
         document.querySelector('#addListModal form').addEventListener('submit', app.handleAddListForm);
         document.querySelector('#addCardModal form').addEventListener('submit', app.handleAddCardForm);
-        document.querySelector('#addLabelModal form').addEventListener('submit', app.associateLabelToCard);
+        document.querySelector('#addLabelToCardModal form').addEventListener('submit', app.associateLabelToCard);
+        document.querySelector('#editLabelsModal form').addEventListener('submit', app.handleAddLabelForm);
     },
 
     showAddListModal: () => {
@@ -61,9 +63,9 @@ const app = {
         container.querySelector('form').classList.remove('is-hidden');
     },
 
-    showAddLabelModal: async (event) => {
+    showAddLabelToCardModal: async (event) => {
         const { cardId } = event.target.closest('.box').dataset;
-        const modal = document.querySelector('#addLabelModal');
+        const modal = document.querySelector('#addLabelToCardModal');
         modal.querySelector('input[type="hidden"]').value = cardId;
         try {
             const cardResponse = await fetch(`${app.base_url}/cards/${cardId}`);
@@ -101,6 +103,11 @@ const app = {
         label.querySelector('form').classList.remove('is-hidden');
     },
 
+    showAddLabelForm: (event) => {
+        event.target.classList.add('is-hidden');
+        event.target.nextElementSibling.classList.remove('is-hidden');
+    },
+
     hideModals: () => {
         const modals = document.querySelectorAll('.modal');
         modals.forEach((modal) => modal.classList.remove('is-active'));
@@ -111,20 +118,8 @@ const app = {
             const response = await fetch(`${app.base_url}/labels`);
             const labels = await response.json();
 
-            const template = document.getElementById('edit-label-template');
             labels.forEach((label) => {
-                const clone = document.importNode(template.content, true);
-                clone.querySelector('#label-name').textContent = label.title;
-                clone.querySelector('input[name="title"]').value = label.title;
-                clone.querySelector('div[data-label-id]').dataset.labelId = label.id;
-                clone.querySelector('input[name="label-id"]').value = label.id;
-                clone.querySelector('input[name="color"]').value = label.color;
-
-                clone.querySelector('.edit-label-icon').addEventListener('click', app.showEditLabelForm);
-                clone.querySelector('form').addEventListener('submit', app.handleEditLabelForm);
-                clone.querySelector('.delete-label-icon').addEventListener('click', app.deleteLabel);
-
-                document.querySelector('#editLabelsModal .labels').appendChild(clone);
+                app.makeLabelInEditModal(label);
             });
         } catch (error) {
             console.error(error);
@@ -231,7 +226,7 @@ const app = {
 
         clone.querySelector('.edit-card-icon').addEventListener('click', app.showEditCardForm);
         clone.querySelector('.delete-card-icon').addEventListener('click', app.deleteCard);
-        clone.querySelector('.add-label-icon').addEventListener('click', app.showAddLabelModal);
+        clone.querySelector('.add-label-icon').addEventListener('click', app.showAddLabelToCardModal);
 
         const form = clone.querySelector('form');
         form.addEventListener('submit', app.handleEditCardForm);
@@ -311,6 +306,22 @@ const app = {
 
         const card = document.querySelector(`div[data-card-id="${label.card_has_label.card_id}"]`);
         card.querySelector('.labels').appendChild(clone);
+    },
+
+    makeLabelInEditModal: (label) => {
+        const template = document.getElementById('edit-label-template');
+        const clone = document.importNode(template.content, true);
+        clone.querySelector('#label-name').textContent = label.title;
+        clone.querySelector('input[name="title"]').value = label.title;
+        clone.querySelector('div[data-label-id]').dataset.labelId = label.id;
+        clone.querySelector('input[name="label-id"]').value = label.id;
+        clone.querySelector('input[name="color"]').value = label.color;
+
+        clone.querySelector('.edit-label-icon').addEventListener('click', app.showEditLabelForm);
+        clone.querySelector('form').addEventListener('submit', app.handleEditLabelForm);
+        clone.querySelector('.delete-label-icon').addEventListener('click', app.deleteLabel);
+
+        document.querySelector('#editLabelsModal .labels').appendChild(clone);
     },
 
     associateLabelToCard: async (event) => {
@@ -398,6 +409,26 @@ const app = {
                     el.remove();
                 }
             });
+        } catch (error) {
+            console.error(error);
+        }
+    },
+
+    handleAddLabelForm: async (event) => {
+        event.preventDefault();
+        const formData = new FormData(event.target);
+        try {
+            const response = await fetch(`${app.base_url}/labels`, {
+                method: 'POST',
+                body: formData,
+            });
+            const label = await response.json();
+
+            app.makeLabelInEditModal(label);
+
+            const button = document.getElementById('addLabelButton');
+            button.classList.remove('is-hidden');
+            button.nextElementSibling.classList.add('is-hidden');
         } catch (error) {
             console.error(error);
         }

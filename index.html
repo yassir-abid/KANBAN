@@ -97,7 +97,7 @@
         </div>
     </div>
 
-    <div class="modal" id="addLabelModal">
+    <div class="modal" id="addLabelToCardModal">
         <div class="modal-background"></div>
         <div class="modal-card">
             <form action="" method="POST">
@@ -131,7 +131,28 @@
                 <p class="modal-card-title">Editer les labels</p>
                 <button class="delete close" type="button" aria-label="close"></button>
             </header>
-            <div class="modal-card-body labels"> </div>
+            <div class="modal-card-body">
+                <div class="column">
+                    <button id="addLabelButton" class="button is-info is-rounded">Ajouter un label</button>
+                    <form class="is-hidden">
+                        <div class="field has-addons">
+                            <div class="control">
+                                <input type="text" class="input is-small" name="title" value=""
+                                    placeholder="Nom du label">
+                            </div>
+                            <div class="control">
+                                <input type="color" class="input is-small originWidth" name="color" value="">
+                            </div>
+                            <div class="control">
+                                <button class="button is-small is-success">Valider</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="labels">
+
+                </div>
+            </div>
             <footer class="modal-card-foot">
                 <button class="button close" type="button">Fermer</button>
             </footer>

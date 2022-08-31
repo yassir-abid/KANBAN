@@ -15,8 +15,8 @@ INSERT INTO "card" ("title", "color", "position", "list_id")
 
 INSERT INTO "label" ("title", "color")
     VALUES
-        ('Front', 'red'),
-        ('Back', 'yellow');
+        ('Front', '#ff0000'),
+        ('Back', '#ffff00');
 
 INSERT INTO "card_has_label" ("card_id", "label_id")
     VALUES

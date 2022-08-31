@@ -7,11 +7,10 @@ const listModule = {
         const clone = document.importNode(template.content, true);
 
         clone.querySelector('.add-card-icon').addEventListener('click', cardModule.showAddCardModal);
+        clone.querySelector('.edit-list-icon').addEventListener('click', listModule.showEditListForm);
         clone.querySelector('.delete-list-icon').addEventListener('click', listModule.deleteList);
 
-        const title = clone.querySelector('h2');
-        title.textContent = list.title;
-        title.addEventListener('dblclick', listModule.showEditListForm);
+        clone.querySelector('h2').textContent = list.title;
 
         const form = clone.querySelector('form');
         form.addEventListener('submit', listModule.handleEditListForm);
@@ -38,8 +37,9 @@ const listModule = {
     },
 
     showEditListForm: (event) => {
-        event.target.classList.add('is-hidden');
-        event.target.nextElementSibling.classList.remove('is-hidden');
+        const list = event.target.closest('div[data-list-id]');
+        list.querySelector('h2').classList.add('is-hidden');
+        list.querySelector('form').classList.remove('is-hidden');
     },
 
     handleAddListForm: async (event) => {

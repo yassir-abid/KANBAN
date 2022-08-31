@@ -134,7 +134,8 @@ const app = {
             const orderedlists = lists.sort(app.comparePosition);
             orderedlists.forEach((list) => {
                 app.makeListInDOM(list);
-                list.cards.forEach((card) => {
+                const orderedCards = list.cards.sort(app.comparePosition);
+                orderedCards.forEach((card) => {
                     app.makeCardInDOM(card);
                     card.labels.forEach((label) => app.makeLabelInDOM(label));
                 });
@@ -168,6 +169,13 @@ const app = {
         form.querySelector('input[name="position"]').value = list.position;
 
         clone.querySelector('.panel').dataset.listId = list.id;
+
+        // eslint-disable-next-line no-undef
+        new Sortable(clone.querySelector('.panel-block'), {
+            animation: 150,
+            ghostClass: 'blue-background-class',
+            onEnd: app.handleDropCard,
+        });
 
         document.querySelector('.card-lists').appendChild(clone);
     },
@@ -264,6 +272,7 @@ const app = {
         form.querySelector('input[name="title"]').value = card.title;
         form.querySelector('input[name="card-id"]').value = card.id;
         form.querySelector('input[name="color"]').value = card.color;
+        form.querySelector('input[name="position"]').value = card.position;
 
         const list = document.querySelector(`div[data-list-id="${card.list_id}"]`);
         list.querySelector('.panel-block').appendChild(clone);
@@ -322,6 +331,27 @@ const app = {
         } catch (error) {
             console.error(error);
         }
+    },
+
+    handleDropCard: async (event) => {
+        const listHTML = event.target.closest('div[data-list-id]');
+        const cards = listHTML.querySelectorAll('.box');
+
+        cards.forEach(async (card, index) => {
+            const positionInput = card.querySelector('input[name="position"');
+            positionInput.value = index + 1;
+
+            const formData = new FormData(card.querySelector('form'));
+
+            try {
+                await fetch(`${app.base_url}/cards/${formData.get('card-id')}`, {
+                    method: 'PATCH',
+                    body: formData,
+                });
+            } catch (error) {
+                console.error(error);
+            }
+        });
     },
 
     makeLabelInDOM: (label) => {

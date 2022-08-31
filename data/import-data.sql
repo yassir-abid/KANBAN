@@ -9,9 +9,9 @@ INSERT INTO "list" ("title", "position")
 
 INSERT INTO "card" ("title", "color", "position", "list_id")
     VALUES
-        ('Agenda', '#f0f', 0, 2),
-        ('Search Bar', 'rgba(255,125,52,0.3)', 1, 2),
-        ('Documentation', 'green', 0, 1);
+        ('Agenda', '#ff00ff', 0, 2),
+        ('Search Bar', '#f8d1ba', 1, 2),
+        ('Documentation', '#038832', 0, 1);
 
 INSERT INTO "label" ("title", "color")
     VALUES

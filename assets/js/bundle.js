@@ -390,7 +390,10 @@ const labelModule = {
 
             labelModule.makeLabelInEditModal(label);
 
-            const button = document.getElementById('addLabelButton');
+            const modal = document.getElementById('editLabelsModal');
+            modal.querySelector('input[name="title"]').value = '';
+
+            const button = modal.querySelector('#addLabelButton');
             button.classList.remove('is-hidden');
             button.nextElementSibling.classList.add('is-hidden');
         } catch (error) {

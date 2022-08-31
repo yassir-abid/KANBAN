@@ -1,4 +1,5 @@
-/* eslint-disable no-undef */
+const utilsModule = require('./utils');
+
 const labelModule = {
     makeLabelInDOM: (label) => {
         const template = document.getElementById('label-template');
@@ -186,3 +187,5 @@ const labelModule = {
         }
     },
 };
+
+module.exports = labelModule;

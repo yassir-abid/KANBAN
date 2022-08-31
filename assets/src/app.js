@@ -1,5 +1,9 @@
-/* eslint-disable no-undef */
 /* eslint-disable no-new */
+const listModule = require('./list');
+const cardModule = require('./card');
+const labelModule = require('./label');
+const utilsModule = require('./utils');
+
 const app = {
 
     init: () => {
@@ -45,6 +49,7 @@ const app = {
                 });
             });
 
+            // eslint-disable-next-line no-undef
             new Sortable(document.querySelector('.card-lists'), {
                 animation: 150,
                 ghostClass: 'blue-background-class',

@@ -1,5 +1,7 @@
-/* eslint-disable no-undef */
 /* eslint-disable no-new */
+
+const cardModule = require('./card');
+const utilsModule = require('./utils');
 
 const listModule = {
     makeListInDOM: (list) => {
@@ -115,3 +117,5 @@ const listModule = {
         });
     },
 };
+
+module.exports = listModule;

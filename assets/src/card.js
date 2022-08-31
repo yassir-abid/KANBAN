@@ -1,4 +1,6 @@
-/* eslint-disable no-undef */
+const labelModule = require('./label');
+const utilsModule = require('./utils');
+
 const cardModule = {
     makeCardInDOM: (card) => {
         const template = document.getElementById('cardTemplate');
@@ -120,3 +122,5 @@ const cardModule = {
         });
     },
 };
+
+module.exports = cardModule;

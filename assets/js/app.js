@@ -1,3 +1,4 @@
+/* eslint-disable no-new */
 const app = {
 
     base_url: 'http://localhost:3000',
@@ -130,12 +131,19 @@ const app = {
         try {
             const response = await fetch(`${app.base_url}/lists`);
             const lists = await response.json();
-            lists.forEach((list) => {
+            const orderedlists = lists.sort(app.comparePosition);
+            orderedlists.forEach((list) => {
                 app.makeListInDOM(list);
                 list.cards.forEach((card) => {
                     app.makeCardInDOM(card);
                     card.labels.forEach((label) => app.makeLabelInDOM(label));
                 });
+            });
+            // eslint-disable-next-line no-undef
+            new Sortable(document.querySelector('.card-lists'), {
+                animation: 150,
+                ghostClass: 'blue-background-class',
+                onEnd: app.handleDropList,
             });
         } catch (error) {
             console.error(error);
@@ -157,6 +165,7 @@ const app = {
         form.addEventListener('submit', app.handleEditListForm);
         form.querySelector('input[name="title"]').value = list.title;
         form.querySelector('input[name="list-id"]').value = list.id;
+        form.querySelector('input[name="position"]').value = list.position;
 
         clone.querySelector('.panel').dataset.listId = list.id;
 
@@ -179,7 +188,7 @@ const app = {
         }
     },
 
-    async handleEditListForm(event) {
+    handleEditListForm: async (event) => {
         event.preventDefault();
         const formData = new FormData(event.target);
         const titleHTML = event.target.previousElementSibling;
@@ -215,6 +224,28 @@ const app = {
             console.error(error);
         }
     },
+
+    handleDropList: () => {
+        const allLists = document.querySelectorAll('.panel');
+
+        allLists.forEach(async (list, index) => {
+            const positionInput = list.querySelector('input[name="position"');
+            positionInput.value = index + 1;
+
+            const formData = new FormData(list.querySelector('form'));
+
+            try {
+                await fetch(`${app.base_url}/lists/${formData.get('list-id')}`, {
+                    method: 'PATCH',
+                    body: formData,
+                });
+            } catch (error) {
+                console.error(error);
+            }
+        });
+    },
+
+    comparePosition: (listA, listB) => listA.position - listB.position,
 
     makeCardInDOM: (card) => {
         const template = document.getElementById('cardTemplate');

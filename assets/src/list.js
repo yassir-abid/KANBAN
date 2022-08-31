@@ -47,6 +47,8 @@ const listModule = {
     handleAddListForm: async (event) => {
         event.preventDefault();
         const formData = new FormData(event.target);
+        const allLists = document.querySelectorAll('.panel');
+        formData.set('position', allLists.length + 1);
         try {
             const response = await fetch(`${utilsModule.base_url}/lists`, {
                 method: 'POST',

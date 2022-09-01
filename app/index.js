@@ -16,6 +16,8 @@ app.use(cors({
     origin: process.env.CORS_DOMAINS ?? '*',
 }));
 
+app.use(express.static('./assets'));
+
 app.use(router);
 
 module.exports = app;

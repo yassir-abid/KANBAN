@@ -185,7 +185,7 @@ const cardModule = {
     },
 
     handleDropCard: async (event) => {
-        const listHTML = event.target.closest('div[data-list-id]');
+        const listHTML = event.to.parentNode;
         const cards = listHTML.querySelectorAll('.box');
 
         cards.forEach(async (card, index) => {
@@ -193,6 +193,7 @@ const cardModule = {
             positionInput.value = index + 1;
 
             const formData = new FormData(card.querySelector('form'));
+            formData.set('list_id', listHTML.dataset.listId);
 
             try {
                 await fetch(`${utilsModule.base_url}/cards/${formData.get('card-id')}`, {
@@ -431,6 +432,7 @@ const listModule = {
 
         // eslint-disable-next-line no-undef
         new Sortable(clone.querySelector('.panel-block'), {
+            group: 'shared',
             animation: 150,
             ghostClass: 'blue-background-class',
             onEnd: cardModule.handleDropCard,

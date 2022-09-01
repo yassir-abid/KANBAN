@@ -24,6 +24,7 @@ const listModule = {
 
         // eslint-disable-next-line no-undef
         new Sortable(clone.querySelector('.panel-block'), {
+            group: 'shared',
             animation: 150,
             ghostClass: 'blue-background-class',
             onEnd: cardModule.handleDropCard,

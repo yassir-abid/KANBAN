@@ -1,3 +1,4 @@
+const path = require('path');
 const logger = require('./logger');
 const ApiError = require('../errors/apiError');
 
@@ -7,7 +8,6 @@ const ApiError = require('../errors/apiError');
  * @param {object} res Express response object
  */
 const errorHandler = (err, res) => {
-    const { message } = err;
     let statusCode = err.infos?.statusCode;
 
     if (!statusCode || Number.isNaN(Number(statusCode))) {
@@ -18,11 +18,9 @@ const errorHandler = (err, res) => {
         logger.error(err);
     }
 
-    res.status(statusCode).json({
-        status: 'error',
-        statusCode,
-        message,
-    });
+    if (statusCode === 404) {
+        res.sendFile(path.join(__dirname, '../../assets/page404.html'));
+    }
 };
 
 module.exports = {

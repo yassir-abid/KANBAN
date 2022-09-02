@@ -1,5 +1,6 @@
+/* eslint-disable no-restricted-globals */
 const utilsModule = {
-    base_url: 'http://localhost:3000',
+    base_url: `${location.origin}`,
     hideModals: () => {
         const modals = document.querySelectorAll('.modal');
         modals.forEach((modal) => modal.classList.remove('is-active'));

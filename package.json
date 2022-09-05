@@ -6,7 +6,8 @@
     "scripts": {
         "test": "DEBUG=test,-express:*,-nodemon*,-body*,-send* node test.js",
         "start": "node .",
-        "dev": "DEBUG=*,-express:*,-nodemon*,-body*,-send*,-sequelize* node-dev index --notify=false"
+        "dev": "DEBUG=*,-express:*,-nodemon*,-body*,-send*,-sequelize* node-dev index --notify=false",
+        "compress": "npx browserify -e assets/src/app.js -o assets/js/bundle.js"
     },
     "repository": {
         "type": "git",

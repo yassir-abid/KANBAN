@@ -26,7 +26,9 @@ It's based on:
 
 6- Run sql seeding data file : `psql -U userName -d DatabaseName -f data/import-data.sql`
 
-7- Run the following script to launch app: `npm start`
+7- Run the following script to bundle js file: `npm run compress`
+
+8- Run the following script to launch app: `npm start`
 
 ## Endpoints
 

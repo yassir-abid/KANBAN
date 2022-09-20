@@ -26,13 +26,27 @@ const mainController = {
         if (!Model) {
             throw new ApiError('Entity not found', { statusCode: 404 });
         }
-        const data = await Model.findAll({
-            include: {
-                all: true,
-                nested: true,
-            },
-            order: Model.orderDefault,
-        });
+        let data;
+        if (entity === 'lists') {
+            data = await Model.findAll({
+                where: {
+                    user_id: Number(req.session.user.id),
+                },
+                include: {
+                    all: true,
+                    nested: true,
+                },
+                order: Model.orderDefault,
+            });
+        } else {
+            data = await Model.findAll({
+                include: {
+                    all: true,
+                    nested: true,
+                },
+                order: Model.orderDefault,
+            });
+        }
 
         return res.json(data);
     },

@@ -5,6 +5,7 @@ body {
 
 .card-lists {
     overflow-x: auto;
+    padding-top: 2rem;
 }
 
 .originWidth {

@@ -37,6 +37,7 @@ const app = {
         closeButtons.forEach((btn) => btn.addEventListener('click', utilsModule.hideModals));
 
         /* handle forms */
+        document.querySelector('#signupModal form').addEventListener('submit', userModule.handleSignupForm);
         document.querySelector('#addListModal form').addEventListener('submit', listModule.handleAddListForm);
         document.querySelector('#addCardModal form').addEventListener('submit', cardModule.handleAddCardForm);
         document.querySelector('#addLabelToCardModal form').addEventListener('submit', labelModule.associateLabelToCard);
@@ -540,6 +541,8 @@ module.exports = listModule;
 
 },{"./card":2,"./utils":6}],5:[function(require,module,exports){
 /* eslint-disable no-param-reassign */
+const utilsModule = require('./utils');
+
 const userModule = {
     showSignupModal: () => {
         const modal = document.getElementById('signupModal');
@@ -557,11 +560,41 @@ const userModule = {
         });
         modal.classList.add('is-active');
     },
+    handleSignupForm: async (event) => {
+        event.preventDefault();
+        const formData = new FormData(event.target);
+        try {
+            const response = await fetch(`${utilsModule.base_url}/signup`, {
+                method: 'POST',
+                body: formData,
+            });
+            const result = await response.json();
+            if (result === 'success') {
+                utilsModule.hideModals();
+                userModule.showLoginModal();
+            } else {
+                let message;
+                if (result === 'email already exists') {
+                    message = 'Un compte existe avec cette adresse mail';
+                } else if (result === 'email address is incorrect') {
+                    message = 'Cette adresse mail est incorrecte';
+                } else if (result === 'the password and its confirmation are not identical') {
+                    message = 'Le mot de passe et sa confirmation ne sont pas identiques';
+                }
+                userModule.showError('signupModal', message);
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    },
+    showError: (modal, message) => {
+        document.getElementById(modal).querySelector('.error').textContent = message;
+    },
 };
 
 module.exports = userModule;
 
-},{}],6:[function(require,module,exports){
+},{"./utils":6}],6:[function(require,module,exports){
 /* eslint-disable no-restricted-globals */
 const utilsModule = {
     base_url: `${location.origin}`,

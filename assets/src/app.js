@@ -36,6 +36,7 @@ const app = {
         closeButtons.forEach((btn) => btn.addEventListener('click', utilsModule.hideModals));
 
         /* handle forms */
+        document.querySelector('#signupModal form').addEventListener('submit', userModule.handleSignupForm);
         document.querySelector('#addListModal form').addEventListener('submit', listModule.handleAddListForm);
         document.querySelector('#addCardModal form').addEventListener('submit', cardModule.handleAddCardForm);
         document.querySelector('#addLabelToCardModal form').addEventListener('submit', labelModule.associateLabelToCard);

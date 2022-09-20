@@ -1,4 +1,5 @@
 /* eslint-disable no-new */
+const userModule = require('./user');
 const listModule = require('./list');
 const cardModule = require('./card');
 const labelModule = require('./label');
@@ -13,6 +14,9 @@ const app = {
     },
 
     addListenerToActions: () => {
+        /* open signup modal */
+        document.getElementById('signupButton').addEventListener('click', userModule.showSignupModal);
+
         /* open add list modal */
         document.getElementById('addListButton').addEventListener('click', listModule.showAddListModal);
 

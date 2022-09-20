@@ -1,5 +1,6 @@
 (function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({1:[function(require,module,exports){
 /* eslint-disable no-new */
+const userModule = require('./user');
 const listModule = require('./list');
 const cardModule = require('./card');
 const labelModule = require('./label');
@@ -14,6 +15,9 @@ const app = {
     },
 
     addListenerToActions: () => {
+        /* open signup modal */
+        document.getElementById('signupButton').addEventListener('click', userModule.showSignupModal);
+
         /* open add list modal */
         document.getElementById('addListButton').addEventListener('click', listModule.showAddListModal);
 
@@ -80,7 +84,7 @@ const app = {
 
 document.addEventListener('DOMContentLoaded', app.init);
 
-},{"./card":2,"./label":3,"./list":4,"./utils":5}],2:[function(require,module,exports){
+},{"./card":2,"./label":3,"./list":4,"./user":5,"./utils":6}],2:[function(require,module,exports){
 const labelModule = require('./label');
 const utilsModule = require('./utils');
 
@@ -209,7 +213,7 @@ const cardModule = {
 
 module.exports = cardModule;
 
-},{"./label":3,"./utils":5}],3:[function(require,module,exports){
+},{"./label":3,"./utils":6}],3:[function(require,module,exports){
 const utilsModule = require('./utils');
 
 const labelModule = {
@@ -405,7 +409,7 @@ const labelModule = {
 
 module.exports = labelModule;
 
-},{"./utils":5}],4:[function(require,module,exports){
+},{"./utils":6}],4:[function(require,module,exports){
 /* eslint-disable no-new */
 
 const cardModule = require('./card');
@@ -531,7 +535,22 @@ const listModule = {
 
 module.exports = listModule;
 
-},{"./card":2,"./utils":5}],5:[function(require,module,exports){
+},{"./card":2,"./utils":6}],5:[function(require,module,exports){
+/* eslint-disable no-param-reassign */
+const userModule = {
+    showSignupModal: () => {
+        const modal = document.getElementById('signupModal');
+        modal.querySelector('.error').textContent = '';
+        modal.querySelectorAll('.input').forEach((input) => {
+            input.value = '';
+        });
+        modal.classList.add('is-active');
+    },
+};
+
+module.exports = userModule;
+
+},{}],6:[function(require,module,exports){
 /* eslint-disable no-restricted-globals */
 const utilsModule = {
     base_url: `${location.origin}`,

@@ -12,6 +12,7 @@ const router = express.Router();
 /** USER */
 router.post('/signup', controllerHandler(userController.subscribe));
 router.post('/login', controllerHandler(userController.login));
+router.get('/logout', controllerHandler(userController.logout));
 
 /** factorized CRUD routes */
 router.get('/:entity', controllerHandler(mainController.getAll));

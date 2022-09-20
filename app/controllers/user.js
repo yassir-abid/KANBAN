@@ -52,5 +52,10 @@ const userController = {
         }
         throw new ApiError('credentials are invalid', { statusCode: 400 });
     },
+    logout: (req, res) => {
+        debug('logout');
+        req.session.destroy();
+        return res.json('success');
+    },
 };
 module.exports = userController;

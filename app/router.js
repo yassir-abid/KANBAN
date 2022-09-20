@@ -3,9 +3,14 @@ const express = require('express');
 const controllerHandler = require('./helpers/controllerHandler');
 const { errorHandler, ApiError } = require('./helpers/errorHandler');
 
-const { mainController, cardController, labelController } = require('./controllers');
+const {
+    mainController, cardController, labelController, userController,
+} = require('./controllers');
 
 const router = express.Router();
+
+/** USER */
+router.post('/signup', controllerHandler(userController.subscribe));
 
 /** factorized CRUD routes */
 router.get('/:entity', controllerHandler(mainController.getAll));

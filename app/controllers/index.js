@@ -2,6 +2,7 @@ const debug = require('debug')('mainController');
 
 const { ApiError } = require('../helpers/errorHandler');
 
+const userController = require('./user');
 const cardController = require('./card');
 const labelController = require('./label');
 
@@ -121,5 +122,5 @@ const mainController = {
 };
 
 module.exports = {
-    mainController, cardController, labelController,
+    mainController, cardController, labelController, userController,
 };

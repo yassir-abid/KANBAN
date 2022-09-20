@@ -8,6 +8,7 @@ const ApiError = require('../errors/apiError');
  * @param {object} res Express response object
  */
 const errorHandler = (err, res) => {
+    const { message } = err;
     let statusCode = err.infos?.statusCode;
 
     if (!statusCode || Number.isNaN(Number(statusCode))) {
@@ -19,7 +20,11 @@ const errorHandler = (err, res) => {
     }
 
     if (statusCode === 404) {
-        res.sendFile(path.join(__dirname, '../../assets/page404.html'));
+        res.status(statusCode).sendFile(path.join(__dirname, '../../assets/page404.html'));
+    }
+
+    if (statusCode === 400) {
+        res.status(statusCode).json(message);
     }
 };
 

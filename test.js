@@ -2,7 +2,8 @@ const debug = require('debug')('test');
 
 require('dotenv').config();
 
-const { Card, List, Label } = require('./app/models');
+// eslint-disable-next-line object-curly-newline
+const { Card, List, Label, User } = require('./app/models');
 
 const someTests = async () => {
     try {
@@ -17,6 +18,10 @@ const someTests = async () => {
         });
         debug(cardsAndLabels);
         debug(cardsAndLabels[0].labels);
+        const user = await User.findByPk(1, {
+            include: ['lists'],
+        });
+        debug(user.lists[0]);
     } catch (error) {
         debug(error);
     }

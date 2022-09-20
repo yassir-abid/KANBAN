@@ -1,6 +1,7 @@
 const List = require('./list');
 const Card = require('./card');
 const Label = require('./label');
+const User = require('./user');
 
 Card.belongsTo(List, {
     as: 'list',
@@ -28,8 +29,19 @@ Label.belongsToMany(Card, {
     updatedAt: false,
 });
 
+List.belongsTo(User, {
+    as: 'user',
+    foreignKey: 'user_id',
+});
+
+User.hasMany(List, {
+    as: 'lists',
+    foreignKey: 'user_id',
+});
+
 module.exports = {
     Card,
     List,
     Label,
+    User,
 };

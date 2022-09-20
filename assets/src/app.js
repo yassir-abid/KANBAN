@@ -17,6 +17,9 @@ const app = {
         /* open signup modal */
         document.getElementById('signupButton').addEventListener('click', userModule.showSignupModal);
 
+        /* open login modal */
+        document.getElementById('loginButton').addEventListener('click', userModule.showLoginModal);
+
         /* open add list modal */
         document.getElementById('addListButton').addEventListener('click', listModule.showAddListModal);
 

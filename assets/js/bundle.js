@@ -18,6 +18,9 @@ const app = {
         /* open signup modal */
         document.getElementById('signupButton').addEventListener('click', userModule.showSignupModal);
 
+        /* open login modal */
+        document.getElementById('loginButton').addEventListener('click', userModule.showLoginModal);
+
         /* open add list modal */
         document.getElementById('addListButton').addEventListener('click', listModule.showAddListModal);
 
@@ -540,6 +543,14 @@ module.exports = listModule;
 const userModule = {
     showSignupModal: () => {
         const modal = document.getElementById('signupModal');
+        modal.querySelector('.error').textContent = '';
+        modal.querySelectorAll('.input').forEach((input) => {
+            input.value = '';
+        });
+        modal.classList.add('is-active');
+    },
+    showLoginModal: () => {
+        const modal = document.getElementById('loginModal');
         modal.querySelector('.error').textContent = '';
         modal.querySelectorAll('.input').forEach((input) => {
             input.value = '';

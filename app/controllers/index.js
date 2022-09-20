@@ -90,7 +90,7 @@ const mainController = {
             }
         }
 
-        const newItem = await Model.create(req.body);
+        const newItem = await Model.create({ user_id: req.session.user.id, ...req.body });
 
         return res.json(newItem);
     },

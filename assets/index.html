@@ -102,6 +102,43 @@
         </div>
     </div>
 
+    <div class="modal" id="loginModal">
+        <div class="modal-background"></div>
+        <div class="modal-card">
+            <form action="" method="POST">
+                <header class="modal-card-head">
+                    <p class="modal-card-title">Connexion</p>
+                    <button class="delete close" type="button" aria-label="close"></button>
+                </header>
+                <section class="modal-card-body">
+                    <p class="error column has-text-centered has-text-danger"></p>
+                    <div class="field has-addons has-addons-centered">
+                        <p class="control has-icons-left has-icons-right">
+                            <input class="input" type="email" id="loginModal_email" name="email" placeholder="Email">
+                            <span class="icon is-small is-left">
+                                <i class="fas fa-envelope"></i>
+                            </span>
+                        </p>
+                    </div>
+                    <div class="field has-addons has-addons-centered">
+                        <p class="control has-icons-left has-icons-right">
+                            <input class="input" type="password" id="loginModal_password" name="password"
+                                placeholder="Mot de passe">
+                            <span class="icon is-small is-left">
+                                <i class="fas fa-lock"></i>
+                            </span>
+                        </p>
+                    </div>
+                </section>
+                <footer class="modal-card-foot">
+                    <button class="button is-success">Valider</button>
+                    <button class="button close" type="button">Annuler</button>
+                </footer>
+            </form>
+        </div>
+    </div>
+
+
     <div class="modal" id="addListModal">
         <div class="modal-background"></div>
         <div class="modal-card">

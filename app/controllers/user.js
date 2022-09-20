@@ -32,5 +32,25 @@ const userController = {
         }
         throw new ApiError('email already exists', { statusCode: 400 });
     },
+    login: async (req, res) => {
+        debug('login');
+        const form = req.body;
+
+        const user = await User.findOne({ where: { email: form.email.toLowerCase() } });
+
+        if (user) {
+            if (await bcrypt.compare(form.password, user.password)) {
+                req.session.user = {
+                    id: user.id,
+                    firstname: user.firstname,
+                    lastname: user.lastname,
+                    email: user.email,
+                };
+                return res.json(req.session.user);
+            }
+            throw new ApiError('credentials are invalid', { statusCode: 400 });
+        }
+        throw new ApiError('credentials are invalid', { statusCode: 400 });
+    },
 };
 module.exports = userController;

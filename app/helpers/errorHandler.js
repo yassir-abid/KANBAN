@@ -23,7 +23,7 @@ const errorHandler = (err, res) => {
         res.status(statusCode).sendFile(path.join(__dirname, '../../assets/page404.html'));
     }
 
-    if (statusCode === 400) {
+    if (statusCode === 400 || statusCode === 401) {
         res.status(statusCode).json(message);
     }
 };

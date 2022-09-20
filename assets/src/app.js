@@ -9,16 +9,17 @@ const app = {
 
     init: () => {
         app.addListenerToActions();
-        app.getListsFromAPI();
-        app.getLabelsFromAPI();
+        app.checkUser();
     },
 
     addListenerToActions: () => {
         /* open signup modal */
-        document.getElementById('signupButton').addEventListener('click', userModule.showSignupModal);
+        const signupButtons = document.querySelectorAll('.signupButton');
+        signupButtons.forEach((element) => element.addEventListener('click', userModule.showSignupModal));
 
         /* open login modal */
-        document.getElementById('loginButton').addEventListener('click', userModule.showLoginModal);
+        const loginButtons = document.querySelectorAll('.loginButton');
+        loginButtons.forEach((element) => element.addEventListener('click', userModule.showLoginModal));
 
         /* open add list modal */
         document.getElementById('addListButton').addEventListener('click', listModule.showAddListModal);
@@ -41,6 +42,21 @@ const app = {
         document.querySelector('#addCardModal form').addEventListener('submit', cardModule.handleAddCardForm);
         document.querySelector('#addLabelToCardModal form').addEventListener('submit', labelModule.associateLabelToCard);
         document.querySelector('#editLabelsModal form').addEventListener('submit', labelModule.handleAddLabelForm);
+    },
+
+    checkUser: async () => {
+        try {
+            const response = await fetch(`${utilsModule.base_url}/checkuser`);
+            const user = await response.json();
+            if (user) {
+                document.getElementById('section_home').classList.toggle('is-hidden');
+                document.getElementById('section_lists').classList.toggle('is-hidden');
+                app.getListsFromAPI();
+                app.getLabelsFromAPI();
+            }
+        } catch (error) {
+            console.error(error);
+        }
     },
 
     getListsFromAPI: async () => {

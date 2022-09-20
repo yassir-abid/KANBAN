@@ -1,0 +1,12 @@
+UTILISATEUR: code_utilisateur, email, mot_de_passe, prénom, nom
+CRÉE, 0N UTILISATEUR, 11 LISTE
+LISTE: code_liste, titre, ordre
+
+:
+:
+POSSÈDE, 0N LISTE, 11 CARTE
+
+LABEL: code_label, titre, couleur
+CATÉGORISÉE PAR, 0N CARTE, 0N LABEL
+CARTE: code_carte, titre, couleur, ordre
+

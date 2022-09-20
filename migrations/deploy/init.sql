@@ -2,12 +2,23 @@
 
 BEGIN;
 
+CREATE TABLE "user" (
+  "id" INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+  "email" TEXT NOT NULL,
+  "password" TEXT NOT NULL,
+  "firstname" TEXT NULL,
+  "lastname" TEXT NULL,
+  "created_at" TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  "updated_at" TIMESTAMPTZ
+);
+
 CREATE TABLE "list" (
     "id" INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
     "title" TEXT NOT NULL,
     "position" SMALLINT NOT NULL DEFAULT 0,
     "created_at" TIMESTAMPTZ NOT NULL DEFAULT NOW(),
-    "updated_at" TIMESTAMPTZ
+    "updated_at" TIMESTAMPTZ,
+    "user_id" INTEGER NOT NULL REFERENCES "user"("id") ON DELETE CASCADE
 );
 
 CREATE TABLE "card" (

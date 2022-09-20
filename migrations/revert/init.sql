@@ -2,6 +2,6 @@
 
 BEGIN;
 
-DROP TABLE "card_has_label", "label", "card", "list";
+DROP TABLE "card_has_label", "label", "card", "list", "user";
 
 COMMIT;

@@ -39,6 +39,7 @@ const app = {
 
         /* handle forms */
         document.querySelector('#signupModal form').addEventListener('submit', userModule.handleSignupForm);
+        document.querySelector('#loginModal form').addEventListener('submit', app.handleLoginForm);
         document.querySelector('#addListModal form').addEventListener('submit', listModule.handleAddListForm);
         document.querySelector('#addCardModal form').addEventListener('submit', cardModule.handleAddCardForm);
         document.querySelector('#addLabelToCardModal form').addEventListener('submit', labelModule.associateLabelToCard);
@@ -50,8 +51,7 @@ const app = {
             const response = await fetch(`${utilsModule.base_url}/checkuser`);
             const user = await response.json();
             if (user) {
-                document.getElementById('section_home').classList.toggle('is-hidden');
-                document.getElementById('section_lists').classList.toggle('is-hidden');
+                userModule.handleAuthentication(user.firstname, user.lastname);
                 app.getListsFromAPI();
                 app.getLabelsFromAPI();
             }
@@ -62,6 +62,7 @@ const app = {
 
     getListsFromAPI: async () => {
         try {
+            document.querySelector('.card-lists').innerHTML = '';
             const response = await fetch(`${utilsModule.base_url}/lists`);
             const lists = await response.json();
             const orderedlists = lists.sort(app.comparePosition);
@@ -99,6 +100,28 @@ const app = {
     },
 
     comparePosition: (listA, listB) => listA.position - listB.position,
+
+    handleLoginForm: async (event) => {
+        event.preventDefault();
+        const formData = new FormData(event.target);
+        try {
+            const response = await fetch(`${utilsModule.base_url}/login`, {
+                method: 'POST',
+                body: formData,
+            });
+            const result = await response.json();
+            if (result === 'credentials are invalid') {
+                userModule.showError('loginModal', 'Le couple identifiant/mot de passe est invalide');
+            } else {
+                utilsModule.hideModals();
+                userModule.handleAuthentication(result.firstname, result.lastname);
+                app.getListsFromAPI();
+                app.getLabelsFromAPI();
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    },
 
 };
 
@@ -605,6 +628,16 @@ const userModule = {
     },
     showError: (modal, message) => {
         document.getElementById(modal).querySelector('.error').textContent = message;
+    },
+    handleAuthentication: (firstname, lastname) => {
+        if (firstname || lastname) {
+            document.getElementById('loginMessage').textContent = `Bienvenue ${firstname} ${lastname}`;
+        }
+        document.getElementById('section_home').classList.toggle('is-hidden');
+        document.getElementById('section_lists').classList.toggle('is-hidden');
+        document.getElementById('loginMessage').classList.toggle('is-hidden');
+        document.getElementById('loginButton').classList.toggle('is-hidden');
+        document.getElementById('signupButton').classList.toggle('is-hidden');
     },
 };
 

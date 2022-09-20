@@ -54,6 +54,54 @@
         </div>
     </section>
 
+    <div class="modal" id="signupModal">
+        <div class="modal-background"></div>
+        <div class="modal-card">
+            <form action="" method="POST">
+                <header class="modal-card-head">
+                    <p class="modal-card-title">Inscription</p>
+                    <button class="delete close" type="button" aria-label="close"></button>
+                </header>
+                <section class="modal-card-body">
+                    <p class="error column has-text-centered has-text-danger"></p>
+                    <div class="field has-addons has-addons-centered">
+                        <p class="control">
+                            <input class="input" type="text" id="signupModal_lastname" name="lastname"
+                                placeholder="Nom">
+                        </p>
+                    </div>
+                    <div class="field has-addons has-addons-centered">
+                        <p class="control">
+                            <input class="input" type="text" id="signupModal_firstname" name="firstname"
+                                placeholder="Prénom">
+                        </p>
+                    </div>
+                    <div class="field has-addons has-addons-centered">
+                        <p class="control">
+                            <input class="input" type="email" id="signupModal_email" name="email" placeholder="Email">
+                        </p>
+                    </div>
+                    <div class="field has-addons has-addons-centered">
+                        <p class="control">
+                            <input class="input" type="password" id="signupModal_password" name="password"
+                                placeholder="Mot de passe">
+                        </p>
+                    </div>
+                    <div class="field has-addons has-addons-centered">
+                        <p class="control">
+                            <input class="input" type="password" id="signupModal_passwordConfirm" name="passwordConfirm"
+                                placeholder="Confirmation du mot de passe">
+                        </p>
+                    </div>
+                </section>
+                <footer class="modal-card-foot">
+                    <button class="button is-success">Valider</button>
+                    <button class="button close" type="button">Annuler</button>
+                </footer>
+            </form>
+        </div>
+    </div>
+
     <div class="modal" id="addListModal">
         <div class="modal-background"></div>
         <div class="modal-card">

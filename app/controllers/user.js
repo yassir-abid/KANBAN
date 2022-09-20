@@ -57,5 +57,12 @@ const userController = {
         req.session.destroy();
         return res.json('success');
     },
+    checkUser: (req, res) => {
+        debug('checkUser');
+        if (req.session.user) {
+            return res.json(req.session.user);
+        }
+        return res.json(false);
+    },
 };
 module.exports = userController;

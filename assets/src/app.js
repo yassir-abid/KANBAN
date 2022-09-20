@@ -43,6 +43,9 @@ const app = {
         document.querySelector('#addCardModal form').addEventListener('submit', cardModule.handleAddCardForm);
         document.querySelector('#addLabelToCardModal form').addEventListener('submit', labelModule.associateLabelToCard);
         document.querySelector('#editLabelsModal form').addEventListener('submit', labelModule.handleAddLabelForm);
+
+        /* handle logout button */
+        document.getElementById('logoutButton').addEventListener('click', userModule.handleLogout);
     },
 
     checkUser: async () => {

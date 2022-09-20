@@ -44,6 +44,9 @@ const app = {
         document.querySelector('#addCardModal form').addEventListener('submit', cardModule.handleAddCardForm);
         document.querySelector('#addLabelToCardModal form').addEventListener('submit', labelModule.associateLabelToCard);
         document.querySelector('#editLabelsModal form').addEventListener('submit', labelModule.handleAddLabelForm);
+
+        /* handle logout button */
+        document.getElementById('logoutButton').addEventListener('click', userModule.handleLogout);
     },
 
     checkUser: async () => {
@@ -626,6 +629,14 @@ const userModule = {
             console.error(error);
         }
     },
+    handleLogout: async () => {
+        try {
+            await fetch(`${utilsModule.base_url}/logout`);
+            userModule.handleAuthentication();
+        } catch (error) {
+            console.error(error);
+        }
+    },
     showError: (modal, message) => {
         document.getElementById(modal).querySelector('.error').textContent = message;
     },
@@ -636,6 +647,7 @@ const userModule = {
         document.getElementById('section_home').classList.toggle('is-hidden');
         document.getElementById('section_lists').classList.toggle('is-hidden');
         document.getElementById('loginMessage').classList.toggle('is-hidden');
+        document.getElementById('logoutButton').classList.toggle('is-hidden');
         document.getElementById('loginButton').classList.toggle('is-hidden');
         document.getElementById('signupButton').classList.toggle('is-hidden');
     },
